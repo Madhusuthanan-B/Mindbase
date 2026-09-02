@@ -2,6 +2,7 @@
 
 **Format**: [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) (Open Knowledge Format)
 **Vault**: `knowledge/` (also the Obsidian vault root)
+**Install**: `git clone`, or as a [Claude Code plugin](#install) — no cloning needed
 
 🌐 **[View the interactive overview →](https://madhusuthanan-b.github.io/Mindbase/)**
 
@@ -15,6 +16,97 @@ base — capture whatever you work with as plain markdown files, browse and quer
 handful of agent skills, and optionally watch the relationships form a colorful graph in
 Obsidian — that's an internal choice, not a requirement; any tool that can view markdown
 works just as well.
+
+## Install
+
+There are two ways to get these skills, and you can mix both across different machines
+or projects:
+
+**Clone it** (works with any coding agent — see "Works with any coding agent" further
+down for the compatibility details):
+
+```bash
+git clone https://github.com/Madhusuthanan-B/Mindbase.git
+```
+
+Then open the cloned folder in your agent of choice and jump to "Getting started" below.
+
+**Install as a Claude Code plugin** (Claude Code only, no per-vault copying):
+
+```
+/plugin marketplace add Madhusuthanan-B/Mindbase
+/plugin install mindbase@mindbase-marketplace
+```
+
+This registers `/brain-setup`, `/brain-capture`, `/brain-query`, `/brain-maintain`
+globally — they work in *any* project you open in Claude Code, not just this repo.
+"Multiple vaults" (work notes, personal notes, a client's notes, ...) just means opening
+each one as its own project folder and running `brain-setup` inside it; the skill itself
+is shared, only the `knowledge/` bundle it operates on changes based on what you have
+open. When installed this way, `brain-setup` skips writing `skills/` and
+`.claude/commands/` into the new vault, since the commands are already global — it only
+creates the `knowledge/` bundle.
+
+## Getting started
+
+Every skill takes the same **plain-language request** no matter what tool you use — the
+request itself is agent-agnostic. Only how you hand it to the agent differs:
+
+- **Any agent or chat UI**: paste the skill file (e.g. `skills/brain-setup/SKILL.md`) as
+  your prompt, then add your plain-language request underneath it.
+- **Claude Code**: skip the paste — type the matching `/brain-*` slash command followed
+  by the same request (wired via `.claude/commands/`; Cursor/Copilot equivalents are in
+  "Using these skills in other tools" further down).
+
+The tables below give both forms side by side for each skill — the left column works
+anywhere, the right column is the Claude Code shortcut for it.
+
+1. **Bootstrap your workspace** — persona-driven folder picker, so your first folders
+   fit your own domain (or skip this and just start capturing into `concepts/`):
+
+   | Say (any agent) | Claude Code |
+   | --- | --- |
+   | "I'm a software engineer — set up Mindbase for me." | `/brain-setup I'm a software engineer — set up Mindbase for me` |
+   | "Set up the right kind of knowledge structure for me — suggest a few options and I'll pick one." | `/brain-setup suggest a few folder structures and I'll pick one` |
+   | "I'm a project manager. I work on client engagements — contracts, deadlines, deliverables. Suggest folders that fit that." | `/brain-setup I'm a project manager, I work on client engagements — contracts, deadlines, deliverables, suggest folders that fit that` |
+
+2. **Capture your first note.** `brain-capture` turns whatever you type — a note, a
+   meeting recap, a decision, a fact about a tool — into linked OKF concept files, and
+   grows new folders on its own when something doesn't fit yet. Just describe what
+   happened, in your own words:
+
+   | Say (any agent) | Claude Code |
+   | --- | --- |
+   | "I just set up Mindbase as my personal knowledge base, following the OKF spec." | `/brain-capture I just set up Mindbase as my personal knowledge base, following the OKF spec.` |
+   | "Sprint planning today — team decided to move the notification service off cron polling to an SQS-based event queue after missing three alerts last week, targeting end of Q3." | `/brain-capture Sprint planning today — team decided to move the notification service off cron polling to an SQS-based event queue after missing three alerts last week, targeting end of Q3.` |
+   | "Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use." | `/brain-capture Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use.` |
+   | "Add to my todo list: follow up with the vendor about the contract renewal by Friday." | `/brain-capture Add to my todo list: follow up with the vendor about the contract renewal by Friday.` |
+
+3. Open `knowledge/` in Obsidian and watch the graph grow as you capture more.
+
+4. **Find what you've captured.** `brain-query` supports search / explore / list / path
+   / timeline / tags / summary:
+
+   | Say (any agent) | Claude Code |
+   | --- | --- |
+   | "Search for anything about the new pricing model." | `/brain-query search pricing model` |
+   | "Explore the Q3 roadmap decision — what's connected to it?" | `/brain-query explore q3-roadmap` |
+   | "List everything tagged as a decision." | `/brain-query list decisions` |
+   | "How are the outage last week and the new deploy process related?" | `/brain-query path outage-incident deploy-process` |
+   | "Show me a timeline of everything I've captured." | `/brain-query timeline` |
+   | "Summarize what's in my knowledge base so far." | `/brain-query summary` |
+   | "What's on my todo list right now?" | `/brain-query list todos` |
+
+5. **Keep the bundle healthy.** Run `brain-maintain` periodically — describe what kind
+   of upkeep you want, in your own words (`health` is the good default to start with):
+
+   | Say (any agent) | Claude Code |
+   | --- | --- |
+   | "Check my knowledge base for broken links, orphan notes, or anything stale." | `/brain-maintain health` |
+   | "Take a look at my folders and tell me if any should be merged, split, or renamed." | `/brain-maintain reorganize` |
+   | "'draft-notes' and 'okf-spec' are the same thing — merge them." | `/brain-maintain merge draft-notes okf-spec` |
+   | "Flesh out my mindbase-setup note with more detail and related links." | `/brain-maintain enrich mindbase-setup` |
+   | "What did I capture this past week? Anything I left incomplete?" | `/brain-maintain review` |
 
 ## The problem
 
@@ -97,96 +189,6 @@ scattered, genuinely made me more productive. OKF gave that habit a real, non-pr
 format instead of my own ad hoc conventions, so it seemed worth rebuilding a bare-minimal
 version properly and open-sourcing it, for anyone else who wants the same habit.
 
-## Install
-
-There are two ways to get these skills, and you can mix both across different machines
-or projects:
-
-**Clone it** (works with any coding agent, per the compatibility notes above):
-
-```bash
-git clone https://github.com/Madhusuthanan-B/Mindbase.git
-```
-
-Then open the cloned folder in your agent of choice and jump to "Getting started" below.
-
-**Install as a Claude Code plugin** (Claude Code only, no per-vault copying):
-
-```
-/plugin marketplace add Madhusuthanan-B/Mindbase
-/plugin install mindbase@mindbase-marketplace
-```
-
-This registers `/brain-setup`, `/brain-capture`, `/brain-query`, `/brain-maintain`
-globally — they work in *any* project you open in Claude Code, not just this repo.
-"Multiple vaults" (work notes, personal notes, a client's notes, ...) just means opening
-each one as its own project folder and running `brain-setup` inside it; the skill itself
-is shared, only the `knowledge/` bundle it operates on changes based on what you have
-open. When installed this way, `brain-setup` skips writing `skills/` and
-`.claude/commands/` into the new vault, since the commands are already global — it only
-creates the `knowledge/` bundle.
-
-## Getting started
-
-Every skill takes the same **plain-language request** no matter what tool you use — the
-request itself is agent-agnostic. Only how you hand it to the agent differs:
-
-- **Any agent or chat UI**: paste the skill file (e.g. `skills/brain-setup/SKILL.md`) as
-  your prompt, then add your plain-language request underneath it.
-- **Claude Code**: skip the paste — type the matching `/brain-*` slash command followed
-  by the same request (wired via `.claude/commands/`; Cursor/Copilot equivalents are in
-  "Using these skills in other tools" below).
-
-The tables below give both forms side by side for each skill — the left column works
-anywhere, the right column is the Claude Code shortcut for it.
-
-1. **Bootstrap your workspace** — persona-driven folder picker, so your first folders
-   fit your own domain (or skip this and just start capturing into `concepts/`):
-
-   | Say (any agent) | Claude Code |
-   | --- | --- |
-   | "I'm a software engineer — set up Mindbase for me." | `/brain-setup I'm a software engineer — set up Mindbase for me` |
-   | "Set up the right kind of knowledge structure for me — suggest a few options and I'll pick one." | `/brain-setup suggest a few folder structures and I'll pick one` |
-   | "I'm a project manager. I work on client engagements — contracts, deadlines, deliverables. Suggest folders that fit that." | `/brain-setup I'm a project manager, I work on client engagements — contracts, deadlines, deliverables, suggest folders that fit that` |
-
-2. **Capture your first note.** `brain-capture` turns whatever you type — a note, a
-   meeting recap, a decision, a fact about a tool — into linked OKF concept files, and
-   grows new folders on its own when something doesn't fit yet. Just describe what
-   happened, in your own words:
-
-   | Say (any agent) | Claude Code |
-   | --- | --- |
-   | "I just set up Mindbase as my personal knowledge base, following the OKF spec." | `/brain-capture I just set up Mindbase as my personal knowledge base, following the OKF spec.` |
-   | "Sprint planning today — team decided to move the notification service off cron polling to an SQS-based event queue after missing three alerts last week, targeting end of Q3." | `/brain-capture Sprint planning today — team decided to move the notification service off cron polling to an SQS-based event queue after missing three alerts last week, targeting end of Q3.` |
-   | "Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use." | `/brain-capture Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use.` |
-   | "Add to my todo list: follow up with the vendor about the contract renewal by Friday." | `/brain-capture Add to my todo list: follow up with the vendor about the contract renewal by Friday.` |
-
-3. Open `knowledge/` in Obsidian and watch the graph grow as you capture more.
-
-4. **Find what you've captured.** `brain-query` supports search / explore / list / path
-   / timeline / tags / summary:
-
-   | Say (any agent) | Claude Code |
-   | --- | --- |
-   | "Search for anything about the new pricing model." | `/brain-query search pricing model` |
-   | "Explore the Q3 roadmap decision — what's connected to it?" | `/brain-query explore q3-roadmap` |
-   | "List everything tagged as a decision." | `/brain-query list decisions` |
-   | "How are the outage last week and the new deploy process related?" | `/brain-query path outage-incident deploy-process` |
-   | "Show me a timeline of everything I've captured." | `/brain-query timeline` |
-   | "Summarize what's in my knowledge base so far." | `/brain-query summary` |
-   | "What's on my todo list right now?" | `/brain-query list todos` |
-
-5. **Keep the bundle healthy.** Run `brain-maintain` periodically — describe what kind
-   of upkeep you want, in your own words (`health` is the good default to start with):
-
-   | Say (any agent) | Claude Code |
-   | --- | --- |
-   | "Check my knowledge base for broken links, orphan notes, or anything stale." | `/brain-maintain health` |
-   | "Take a look at my folders and tell me if any should be merged, split, or renamed." | `/brain-maintain reorganize` |
-   | "'draft-notes' and 'okf-spec' are the same thing — merge them." | `/brain-maintain merge draft-notes okf-spec` |
-   | "Flesh out my mindbase-setup note with more detail and related links." | `/brain-maintain enrich mindbase-setup` |
-   | "What did I capture this past week? Anything I left incomplete?" | `/brain-maintain review` |
-
 ## Domains
 
 Folders are a pure organizational + Obsidian-coloring convention — OKF itself has no
@@ -229,7 +231,7 @@ retiring as the bundle evolves. Full detail lives in `knowledge/README.md`.
 **Note on `skills/` vs Claude Code slash commands**: the canonical, vendor-neutral
 source for every skill lives in `skills/` — Claude Code doesn't auto-load that
 directory from a plain clone (it does if you install Mindbase as a Claude Code plugin —
-see "Install as a Claude Code plugin" below). `.claude/commands/` ships four thin
+see "Install" above). `.claude/commands/` ships four thin
 wrapper files (`brain-setup.md`, `brain-capture.md`, `brain-query.md`,
 `brain-maintain.md`), each just a couple of lines that say "read and follow
 `skills/<skill>/SKILL.md`, using this input as `$ARGUMENTS`". That gives Claude Code
