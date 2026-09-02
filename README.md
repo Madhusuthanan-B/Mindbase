@@ -123,7 +123,7 @@ anywhere, the right column is the Claude Code shortcut for it.
    | Say (any agent) | Claude Code |
    | --- | --- |
    | "I just set up Mindbase as my personal knowledge base, following the OKF spec." | `/brain-capture I just set up Mindbase as my personal knowledge base, following the OKF spec.` |
-   | "Met with Priya today — we decided to use OKF v0.2 for the team wiki instead of Confluence." | `/brain-capture Met with Priya today — we decided to use OKF v0.2 for the team wiki instead of Confluence.` |
+   | "Sprint planning today — team decided to move the notification service off cron polling to an SQS-based event queue after missing three alerts last week, targeting end of Q3." | `/brain-capture Sprint planning today — team decided to move the notification service off cron polling to an SQS-based event queue after missing three alerts last week, targeting end of Q3.` |
    | "Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use." | `/brain-capture Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use.` |
    | "Add to my todo list: follow up with the vendor about the contract renewal by Friday." | `/brain-capture Add to my todo list: follow up with the vendor about the contract renewal by Friday.` |
 
@@ -376,6 +376,36 @@ backlinks natively. What it actually adds is narrower and more honest:
   folder taxonomy sane) instead of you doing that filing by hand.
 - **Zero added infrastructure** — no plugin, no database, no server; if you can read and
   write a markdown file, you can use this, and you can stop using it just as easily.
+
+## How this compares to an agent's built-in memory
+
+Some agent platforms now ship their own memory feature — Claude's memory tool, for
+example, lets an agent read and write files across sessions so it doesn't lose context on
+a long task. It's fair to ask whether Mindbase is reinventing that. Right now, no — they
+solve different problems:
+
+- **Scoped to one agent vs. a shared vault.** Agent memory is client-side storage the
+  model reads and writes inside one tool's own sessions (e.g. `/memories` in Claude's
+  tool) — it's built to survive within that integration, not to be handed to a different
+  agent or opened by a human. A Mindbase vault is plain markdown any agent, or you, can
+  open next week whether or not it's this week's tool.
+- **Loose notes vs. a typed graph.** Agent memory is files the model tidies as it goes —
+  no concept types, no cross-linking model, no way to walk "what does this decision
+  connect to" as a graph. The linked, typed OKF graph is the entire point of Mindbase, not
+  a side effect of notes an agent happened to keep.
+- **Invisible by design vs. yours to curate.** You're not meant to browse an agent's
+  memory directory. A Mindbase vault is meant to be opened, read, and edited directly —
+  in Obsidian, in a text editor, by hand — with the agent as a contributor to it, not the
+  sole owner of it.
+
+Worth being honest about the trajectory here: agent platforms are actively building out
+memory, and it's reasonable to expect more of this — cross-session recall, maybe even
+structure — to become a native feature over time. If that happens, that's a good outcome;
+the underlying need (durable, connected knowledge) gets met either way, and this
+comparison describes the current state, not a permanent moat. What's a deliberate design
+choice rather than a placeholder is the part unlikely to change regardless: **open
+format, portable across whatever agent you use, and readable without one in the loop at
+all.**
 
 ## Why OKF
 
