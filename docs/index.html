@@ -195,6 +195,7 @@
   .code-block { position: relative; background: var(--code-bg); border: 1px solid var(--border-soft); border-radius: var(--radius); margin: 14px 0; }
   .code-block pre { margin: 0; padding: 16px 54px 16px 18px; overflow-x: auto; font-size: .85rem; color: var(--accent-ink); }
   .code-block pre::before { content: '$ '; color: var(--text-dim); }
+  .code-block.chat pre::before { content: '» '; }
   .copy-btn {
     position: absolute; top: 10px; right: 10px; background: transparent; border: 1px solid var(--border);
     color: var(--text-dim); font: 600 .68rem/1 var(--mono); padding: 4px 9px; border-radius: var(--radius); cursor: pointer;
@@ -466,15 +467,16 @@
           <button class="copy-btn">copy</button>
         </div>
       </li>
-      <li><strong>Bootstrap your workspace</strong> — describe what you do, in plain language.
-        <div class="code-block">
-          <pre><code>/brain-setup I'm a software engineer — set up Mindbase for me</code></pre>
+      <li><strong>Bootstrap your workspace</strong> — tell your agent what you do, in plain language. (Claude
+        Code users get this natively as <code>/brain-setup</code>.)
+        <div class="code-block chat">
+          <pre><code>Set up Mindbase for me — I'm a software engineer.</code></pre>
           <button class="copy-btn">copy</button>
         </div>
       </li>
-      <li><strong>Capture your first note.</strong>
-        <div class="code-block">
-          <pre><code>/brain-capture I just set up Mindbase as my personal knowledge base, following the OKF spec.</code></pre>
+      <li><strong>Capture your first note.</strong> Just say what happened — no special syntax required.
+        <div class="code-block chat">
+          <pre><code>Remember that I just set up Mindbase as my personal knowledge base, following the OKF spec.</code></pre>
           <button class="copy-btn">copy</button>
         </div>
       </li>
