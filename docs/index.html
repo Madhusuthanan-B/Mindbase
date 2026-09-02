@@ -239,7 +239,9 @@
     </ul>
     <div class="nav-right">
       <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">[ ]</button>
-      <a class="btn btn-ghost" href="https://github.com/" id="gh-link" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://x.com/thecompiledmind" id="tw-link" target="_blank" rel="noopener">Twitter</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/madhusuthanan-b/" id="li-link" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/Madhusuthanan-B/Mindbase" id="gh-link" target="_blank" rel="noopener">GitHub</a>
       <button class="icon-btn" id="nav-toggle" aria-label="Toggle menu">≡</button>
     </div>
   </nav>
@@ -251,8 +253,10 @@
       <p class="eyebrow"><span class="num">00 /</span> OKF v0.2 · AGENT-NATIVE · ZERO INFRA</p>
       <h1>Turn scattered knowledge into <span class="accent">a graph you can think with</span><span class="cursor-tail"></span></h1>
       <p class="lede">Mindbase is a bare-minimal personal knowledge workspace. Capture whatever you learn — at work
-        or anywhere else — as plain markdown files, browse and query them with any coding agent, and watch the
-        relationships form a colorful graph in Obsidian. No app, no server, no lock-in.</p>
+        or anywhere else — as plain markdown files, browse and query them with any coding agent, and optionally
+        watch the relationships form a colorful graph in Obsidian — an internal choice, not a requirement; any
+        markdown viewer works just as well. No app, no server, no lock-in — no overhead
+        of extra tools or package installs either. Simple and very light by design.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#get-started">Get started →</a>
         <a class="btn btn-ghost" href="#how-it-works">See the skills</a>
@@ -276,8 +280,11 @@
   <div class="wrap">
     <p class="eyebrow"><span class="num">01 /</span> The problem</p>
     <h2>Most of what we learn never gets written down anywhere useful.</h2>
-    <p class="lede">It's buried in a WhatsApp chat, an email thread, a voice recording, a web page you skimmed
-      once, or scattered across three different note apps. When something does get written down, it's usually
+    <p class="lede">It's buried in a WhatsApp chat, a Teams thread, an email you'll never find again, a voice
+      recording, a web page you skimmed once, an internal wiki page that's gone stale, a personal notes file,
+      a browser bookmark you'll never revisit, a ticket sitting on some board, a to-do list on your phone or PC,
+      or scattered across three different note-taking apps — and a dozen other places besides. When something
+      does get written down, it's usually
       one flat note, disconnected from everything else it relates to — so when you actually need it, you're
       piecing it together from memory instead of just looking it up.</p>
     <div class="grid3">
@@ -392,8 +399,8 @@
   <div class="wrap">
     <p class="eyebrow"><span class="num">05 /</span> Architecture</p>
     <h2>How the pieces fit together.</h2>
-    <p class="lede">Any coding agent reaches the canonical skills, which read and write a plain markdown bundle
-      that Obsidian renders as a graph.</p>
+    <p class="lede">Any coding agent reaches the canonical skills, which read and write a plain markdown bundle —
+      Obsidian is one optional way to view it as a graph, not a required part of the chain.</p>
     <div class="flow">
       <div class="flow-box panel">Any coding agent<br><small>Claude Code, Cursor, Copilot…</small></div>
       <div class="flow-arrow">-&gt;</div>
@@ -401,7 +408,7 @@
       <div class="flow-arrow">-&gt;</div>
       <div class="flow-box panel">knowledge/ bundle<br><small>OKF v0.2 markdown files</small></div>
       <div class="flow-arrow">-&gt;</div>
-      <div class="flow-box panel">Obsidian<br><small>graph view</small></div>
+      <div class="flow-box panel">Obsidian (optional)<br><small>or any markdown viewer</small></div>
     </div>
     <div class="flow-spec">↑ every skill reads and conforms to the OKF v0.2 specification directly</div>
   </div>
@@ -430,7 +437,8 @@
           <button class="copy-btn">copy</button>
         </div>
       </li>
-      <li><strong>Open <code>knowledge/</code> in Obsidian</strong> and watch the graph grow as you capture more.</li>
+      <li><strong>Browse <code>knowledge/</code> in Obsidian (optional)</strong> — or any markdown viewer/editor
+        you already use — and watch the graph grow as you capture more.</li>
     </ol>
   </div>
 </section>
