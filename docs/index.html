@@ -119,7 +119,7 @@
 
   /* Hero */
   .hero { padding: 90px 0 80px; }
-  .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: start; }
   .hero h1 {
     font-size: clamp(1.9rem, 4.2vw, 3rem); margin: 0 0 18px; text-transform: uppercase; letter-spacing: -.01em;
   }
@@ -130,8 +130,16 @@
 
   @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
 
+  .hero-graph-col { display: flex; flex-direction: column; align-items: flex-end; gap: 28px; }
+  .plugin-chip {
+    display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 10px;
+    border: 1px solid var(--accent); border-radius: 999px; background: var(--panel);
+    font: 700 .68rem/1 var(--mono); letter-spacing: .03em; text-transform: uppercase; color: var(--accent-ink);
+  }
+  .plugin-chip:hover { background: var(--accent); color: var(--btn-ink); text-decoration: none; }
+  .plugin-chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 5px var(--ok); flex: none; }
   .hero-graph-panel {
-    position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--code-bg);
+    position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--code-bg); width: 100%;
   }
   .hero-graph-panel canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .hero-graph-panel .scanline {
@@ -203,6 +211,17 @@
     color: var(--text-dim); font: 600 .68rem/1 var(--mono); padding: 4px 9px; border-radius: var(--radius); cursor: pointer;
   }
   .copy-btn:hover { color: var(--accent-ink); border-color: var(--accent); }
+  .install-option { border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 16px 18px 4px; margin-top: 14px; }
+  .install-option .code-block { margin-bottom: 14px; }
+  .install-label {
+    display: block; font: 700 .74rem/1 var(--mono); color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px;
+  }
+  .install-or {
+    display: flex; align-items: center; gap: 12px; margin: 14px 0; color: var(--text-dim);
+    font: 700 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em;
+  }
+  .install-or::before, .install-or::after { content: ''; flex: 1; height: 1px; background: var(--border-soft); }
   .steps { counter-reset: step; list-style: none; padding: 0; margin: 30px 0 0; }
   .steps li { counter-increment: step; position: relative; padding-left: 46px; margin-bottom: 26px; }
   .steps li::before {
@@ -216,6 +235,7 @@
 
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
+    .hero-graph-col { align-items: center; }
     .hero-graph-panel { aspect-ratio: 16 / 9; max-width: 480px; margin: 0 auto; }
   }
   @media (max-width: 760px) {
@@ -265,21 +285,30 @@
         watch the relationships form a colorful graph in Obsidian — an internal choice, not a requirement; any
         markdown viewer works just as well. No app, no server, no lock-in — no overhead
         of extra tools or package installs either. Simple and very light by design.</p>
+      <p class="aside-note" style="margin: -20px 0 0">Clone it to use with any coding agent, or, on Claude
+        Code, install it once as a plugin instead — no cloning needed.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#get-started">Get started →</a>
+        <a class="btn btn-ghost" href="#get-started">Install as a plugin →</a>
         <a class="btn btn-ghost" href="#how-it-works">See the skills</a>
       </div>
       <div class="badges">
         <span class="badge">format: <b>okf_v0.2</b></span>
         <span class="badge">vault: <b>knowledge/</b></span>
         <span class="badge">agent: <b>any</b></span>
+        <span class="badge">install: <b>clone or plugin</b></span>
       </div>
     </div>
-    <div class="hero-graph-panel panel">
-      <span class="panel-tag">live_graph.view</span>
-      <span class="panel-pulse" aria-hidden="true"></span>
-      <div class="scanline" aria-hidden="true"></div>
-      <canvas id="graph-canvas" aria-hidden="true"></canvas>
+    <div class="hero-graph-col">
+      <a class="plugin-chip" href="#get-started" title="Install Mindbase as a Claude Code plugin — no cloning needed">
+        <span class="plugin-chip-dot"></span>Claude Code plugin
+      </a>
+      <div class="hero-graph-panel panel">
+        <span class="panel-tag">live_graph.view</span>
+        <span class="panel-pulse" aria-hidden="true"></span>
+        <div class="scanline" aria-hidden="true"></div>
+        <canvas id="graph-canvas" aria-hidden="true"></canvas>
+      </div>
     </div>
   </div>
 </section>
@@ -465,16 +494,25 @@
     <p class="eyebrow"><span class="num">07 /</span> Get started</p>
     <h2>From clone (or plugin install) to first captured concept.</h2>
     <ol class="steps">
-      <li><strong>Get the skills</strong> — clone the repo (works with any coding agent), or if you're on
-        Claude Code, install it as a plugin instead (skills register globally, nothing to copy per vault):
-        <div class="code-block">
-          <pre><code>git clone https://github.com/Madhusuthanan-B/Mindbase.git</code></pre>
-          <button class="copy-btn">copy</button>
+      <li><strong>Get the skills</strong> — pick one, not both:
+        <div class="install-option">
+          <span class="install-label">Clone the repo — works with any coding agent</span>
+          <div class="code-block">
+            <pre><code>git clone https://github.com/Madhusuthanan-B/Mindbase.git</code></pre>
+            <button class="copy-btn">copy</button>
+          </div>
         </div>
-        <div class="code-block chat">
-          <pre><code>/plugin marketplace add Madhusuthanan-B/Mindbase
-/plugin install mindbase@mindbase-marketplace</code></pre>
-          <button class="copy-btn">copy</button>
+        <div class="install-or">or</div>
+        <div class="install-option">
+          <span class="install-label">Install as a Claude Code plugin — registers globally, nothing to copy per vault</span>
+          <div class="code-block chat">
+            <pre><code>/plugin marketplace add Madhusuthanan-B/Mindbase</code></pre>
+            <button class="copy-btn">copy</button>
+          </div>
+          <div class="code-block chat">
+            <pre><code>/plugin install mindbase@mindbase-marketplace</code></pre>
+            <button class="copy-btn">copy</button>
+          </div>
         </div>
       </li>
       <li><strong>Bootstrap your workspace</strong> — tell your agent what you do, in plain language. (Claude
