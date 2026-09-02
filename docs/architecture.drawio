@@ -1,0 +1,111 @@
+<mxfile host="app.diagrams.net" modified="2026-09-02T00:00:00.000Z" agent="Mindbase" version="24.0.0" type="device">
+  <diagram name="Architecture" id="mindbase-architecture">
+    <mxGraphModel dx="1500" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1440" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title1" value="Mindbase &#45;&#45; Architecture Overview" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="600" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="grp1" value="Any coding agent / chat UI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;verticalAlign=top;align=left;fontSize=14;fontStyle=1;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1320" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1" value="Claude Code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="100" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t2" value="Cursor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="390" y="100" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3" value="GitHub Copilot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="690" y="100" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4" value="Other agent / chat UI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="990" y="100" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="wrap1" value=".claude/commands/*.md (or equivalent wrapper)&lt;br&gt;thin delegators &#8594; .agents/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="560" y="250" width="330" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="specBox" value="OKF v0.2 Specification&lt;br&gt;(external, canonical rules)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;dashed=1;fontStyle=2;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="250" width="270" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="grp2" value=".agents/ &#8212; canonical, vendor-neutral skills (single source of truth)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;verticalAlign=top;align=left;fontSize=14;fontStyle=1;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="390" width="1320" height="210" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sk1" value="brain-setup&lt;br&gt;Persona-driven bootstrap:&lt;br&gt;picks folders, colors, writes stubs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="70" y="440" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sk2" value="brain-capture&lt;br&gt;Notes &#8594; OKF concept files;&lt;br&gt;grows new folders organically" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="390" y="440" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sk3" value="brain-query&lt;br&gt;Search / explore / list /&lt;br&gt;path / timeline / tags / summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="710" y="440" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sk4" value="brain-maintain&lt;br&gt;Health check, merge duplicates,&lt;br&gt;taxonomy review, enrich" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="440" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="grp3" value="knowledge/ &#8212; OKF v0.2 bundle == Obsidian vault root" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;verticalAlign=top;align=left;fontSize=14;fontStyle=1;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="670" width="1080" height="210" as="geometry" />
+        </mxCell>
+
+        <mxCell id="kfiles" value="index.md (okf_version: 0.2)&lt;br&gt;README.md (type: Documentation)&lt;br&gt;log.md (dated change history)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="70" y="720" width="230" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="kconcepts" value="concepts/&lt;br&gt;universal seed folder&lt;br&gt;(present in every clone)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="330" y="720" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="kdynamic" value="&amp;lt;domain&amp;gt;/&lt;br&gt;from a brain-setup persona preset,&lt;br&gt;or created organically by brain-capture" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="580" y="720" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="kobsconf" value=".obsidian/graph.json&lt;br&gt;colorGroups &#8212; 12-color palette&lt;br&gt;assigned per folder, in order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="850" y="720" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="obsapp" value="Obsidian&lt;br&gt;opens knowledge/ as vault;&lt;br&gt;renders concept graph" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="720" width="210" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="Legend&lt;br&gt;solid arrow = creates / writes&lt;br&gt;black dashed arrow = read-only&lt;br&gt;gray dashed box/arrow = external reference (not part of this repo)&lt;br&gt;orange = agent tools, yellow = wrapper / Obsidian app,&lt;br&gt;blue = skills, green = knowledge files, purple = seed folder,&lt;br&gt;dashed green = dynamic domain folder, red = Obsidian config" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666666;align=left;verticalAlign=top;fontSize=11;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="950" width="560" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" value="native command, wrapper, or pasted prompt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;elbow=vertical;strokeColor=#333333;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="grp1" target="wrap1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" value="reads &amp;amp; follows" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;elbow=vertical;strokeColor=#333333;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wrap1" target="grp2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="espec" value="every skill reads &amp;amp; conforms&lt;br&gt;to this spec directly" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;elbow=vertical;dashed=1;strokeColor=#666666;fontSize=11;fontColor=#666666;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.9;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="specBox" target="grp2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" value="reads &amp;amp; writes the knowledge/ bundle&lt;br&gt;(bootstrap, capture, query, maintain &#8212; see skills above)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;elbow=vertical;strokeColor=#333333;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="grp2" target="grp3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e10" value="open as vault" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;elbow=vertical;strokeColor=#333333;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="grp3" target="obsapp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

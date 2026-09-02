@@ -12,18 +12,42 @@ that same instinct, made practical: a bare-minimal, **domain-agnostic** personal
 base — capture whatever you work with as plain markdown files, browse and query them via a
 handful of agent skills, and watch the relationships form a colorful graph in Obsidian.
 
-Most of what we learn at work never gets written down anywhere useful — it's buried in a
-WhatsApp chat, an email thread, a voice recording, or scattered across three different note
-apps. And when something does get written down, it's usually one flat note,
-disconnected from everything else it relates to — so when you actually need it, you're
-piecing it together from memory instead of just looking it up. Fixing that used to mean
-adopting yet another note-taking app or getting a whole team onto an enterprise wiki. It
-doesn't anymore: coding agents are already part of daily work for a lot of us, reading and
-writing files all day — the same agent can just as easily capture what you learn as you
-go, in plain markdown, with no separate app, subscription, or admin console required. A
-graph doesn't have the flat-document problem either: you can follow how a decision came
-about, or see everything tied to a project at a glance, instead of relying on memory or
-search-and-hope.
+## The problem
+
+Most of what we learn — at work or anywhere else — never gets written down anywhere
+useful: it's buried in a WhatsApp chat, an email thread, a voice recording, a web page you
+skimmed once, or scattered across three different note apps. And when something does get
+written down, it's usually one flat note, disconnected from everything else it relates
+to — so when you actually need it, you're piecing it together from memory instead of just
+looking it up. Fixing that used to mean adopting yet another note-taking app or getting a
+whole team onto an enterprise wiki. It doesn't anymore: coding agents are already part of
+daily work for a lot of us, reading and writing files all day — the same agent can just as
+easily capture what you learn as you go, in plain markdown, with no separate app,
+subscription, or admin console required. A graph doesn't have the flat-document problem
+either: you can follow how a decision came about, or see everything tied to a project at a
+glance, instead of relying on memory or search-and-hope.
+
+## Beyond work
+
+This isn't just a work habit, either. The same idea works for any domain where the raw
+material is scattered across apps, pages, and conversations but never curated into one
+place — personal finance, health, stock research, a hobby you're deep in. Once you've
+captured what actually matters into a vault, instead of leaving it spread across bank
+statements, browser tabs, and screenshots, an agent can reason over it, connect it, and
+help you analyze it and make decisions — the same way it would help you navigate a
+codebase. The vault becomes something you can *think with*, not just search.
+
+## Compose your own vaults
+
+And there's no single "the" vault. Mindbase is a template, not a hosted product — clone
+it as many times as you want, one per vault, and compose them however suits how you
+actually think. Keep a `mindbase-work` repo for your job, a `mindbase-finance` repo for
+budgeting and investment research, a `mindbase-health` repo for medical history, or one
+`mindbase-life` repo that deliberately blends personal finance with stock research because
+that's how you connect the dots. The boundary between vaults — by domain, by life vs.
+work, or no boundary at all — is a decision the tool leaves entirely to you.
+
+## Make it yours
 
 This is intentionally minimal — tweak the folders, colors, frontmatter fields, and skill
 prompts to fit your own workflow. The folder taxonomy in particular is not fixed: it's
@@ -37,14 +61,18 @@ or any other agent you paste them into. Claude Code additionally gets native `/b
 slash commands out of the box (see "Skills" below); other tools can get the same via a
 one-line wrapper (see "Using these skills in other tools").
 
-**Why OKF.** [OKF](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing)
+## Why OKF
+
+[OKF](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing)
 was built to help organizations share and catalog *data* consistently, not personal notes
 — but the rule that makes it work there (every file is typed, so any tool can pick it up
 and know what it's looking at) is just as useful for a personal knowledge base. It means
 Mindbase isn't yet another one-off note format — the files stay readable and reusable by
 any OKF-aware tool, not just the skills in this repo.
 
-**Where the idea comes from.** The `.agents/` skills are a small, concrete take on the
+## Where the idea comes from
+
+The `.agents/` skills are a small, concrete take on the
 ["LLM as wiki"](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
 pattern — instead of you filing notes by hand, an agent does the writing, linking, and
 tidying: `brain-capture` writes things down as they happen, `brain-query` looks them back
@@ -62,8 +90,8 @@ version properly and open-sourcing it, for anyone else who wants the same habit.
 Every skill takes the same **plain-language request** no matter what tool you use — the
 request itself is agent-agnostic. Only how you hand it to the agent differs:
 
-- **Any agent or chat UI**: paste the skill file (e.g. `.agents/brain-setup.md`) as your
-  prompt, then add your plain-language request underneath it.
+- **Any agent or chat UI**: paste the skill file (e.g. `.agents/brain-setup/SKILL.md`) as
+  your prompt, then add your plain-language request underneath it.
 - **Claude Code**: skip the paste — type the matching `/brain-*` slash command followed
   by the same request (wired via `.claude/commands/`; Cursor/Copilot equivalents are in
   "Using these skills in other tools" below).
@@ -142,7 +170,7 @@ offers a few starter presets:
 | Custom | type your own folder list |
 
 Whichever folders you end up with get colors assigned in order from a shared 12-color
-palette (see `.agents/brain-setup.md` for the full table — Blue, Green, Purple, Amber,
+palette (see `.agents/brain-setup/SKILL.md` for the full table — Blue, Green, Purple, Amber,
 Orange, Cyan, Pink, Red, Teal, Yellow, Indigo, Gray). New folders can also appear
 **organically** through `brain-capture` when a concept doesn't fit anything existing,
 and `brain-maintain`'s taxonomy review flags folders worth merging, splitting, or
@@ -161,8 +189,8 @@ retiring as the bundle evolves. Full detail lives in `knowledge/README.md`.
 source for every skill lives in `.agents/` — Claude Code doesn't auto-load that
 directory. `.claude/commands/` ships four thin wrapper files (`brain-setup.md`,
 `brain-capture.md`, `brain-query.md`, `brain-maintain.md`), each just a couple of lines
-that say "read and follow `.agents/<skill>.md`, using this input as `$ARGUMENTS`". That
-gives Claude Code native `/brain-setup`, `/brain-capture`, `/brain-query`,
+that say "read and follow `.agents/<skill>/SKILL.md`, using this input as `$ARGUMENTS`".
+That gives Claude Code native `/brain-setup`, `/brain-capture`, `/brain-query`,
 `/brain-maintain` slash commands for free, while keeping all the actual logic in one
 place (`.agents/`) so it never drifts out of sync between the two copies.
 
@@ -172,25 +200,26 @@ appended.
 
 ## Using these skills in other tools
 
-`.agents/*.md` is the single source of truth — every tool-specific wrapper just points
-back to it, so you never edit skill logic in two places.
+`.agents/<skill>/SKILL.md` is the single source of truth — every tool-specific wrapper
+just points back to it, so you never edit skill logic in two places.
 
 - **Claude Code**: already wired via `.claude/commands/` (see above) — `/brain-setup`,
   `/brain-capture`, `/brain-query`, `/brain-maintain` work out of the box.
 - **Cursor**: drop the same kind of one-line wrapper into `.cursor/commands/`, e.g.
-  `.cursor/commands/brain-capture.md` containing "Read and follow `.agents/brain-capture.md`,
-  using this as `$ARGUMENTS`: $ARGUMENTS" — Cursor lists it as a `/brain-capture` command
-  in chat. (Cursor Commands landed in Cursor 1.6; check Cursor's current docs for the
-  exact `$ARGUMENTS`-equivalent syntax if this doesn't work verbatim.)
+  `.cursor/commands/brain-capture.md` containing "Read and follow
+  `.agents/brain-capture/SKILL.md`, using this as `$ARGUMENTS`: $ARGUMENTS" — Cursor lists
+  it as a `/brain-capture` command in chat. (Cursor Commands landed in Cursor 1.6; check
+  Cursor's current docs for the exact `$ARGUMENTS`-equivalent syntax if this doesn't work
+  verbatim.)
 - **GitHub Copilot** (VS Code / Visual Studio / JetBrains): same pattern as a
   `.github/prompts/brain-capture.prompt.md` file, invoked as `/brain-capture` in Copilot
   Chat. This is a preview feature and, as of this writing, isn't available in the
   Copilot CLI.
 - **Anything else** (a different agent, a plain chat UI, an API call): no wrapper needed
-  — paste the relevant `.agents/*.md` file's content as your prompt and append your
-  notes or query where it says `$ARGUMENTS`. This always works, since a skill file is
-  just plain instructions in markdown; native slash-command support is a convenience on
-  top, not a requirement.
+  — paste the relevant `.agents/<skill>/SKILL.md` file's content as your prompt and
+  append your notes or query where it says `$ARGUMENTS`. This always works, since a skill
+  file is just plain instructions in markdown; native slash-command support is a
+  convenience on top, not a requirement.
 
 ## Directory layout
 
@@ -204,10 +233,10 @@ Mindbase/                           ← repo root (clone this anywhere)
 ├── docs/
 │   └── architecture.drawio        ← visual architecture diagram (draw.io)
 ├── .agents/                      ← canonical, vendor-neutral skill definitions
-│   ├── brain-setup.md            ← bootstrap a new Mindbase workspace (persona picker)
-│   ├── brain-capture.md          ← extract notes into OKF concepts; grows folders organically
-│   ├── brain-query.md            ← search/explore/list/path/timeline/tags/summary
-│   └── brain-maintain.md         ← health/merge/reorganize (incl. taxonomy review)/enrich/review
+│   ├── brain-setup/SKILL.md      ← bootstrap a new Mindbase workspace (persona picker)
+│   ├── brain-capture/SKILL.md    ← extract notes into OKF concepts; grows folders organically
+│   ├── brain-query/SKILL.md      ← search/explore/list/path/timeline/tags/summary
+│   └── brain-maintain/SKILL.md   ← health/merge/reorganize (incl. taxonomy review)/enrich/review
 ├── .claude/commands/             ← thin wrappers so Claude Code gets native /brain-* commands
 │   ├── brain-setup.md
 │   ├── brain-capture.md
@@ -295,9 +324,9 @@ the point:
 - **Obsidian is a viewer, not a dependency.** It renders the graph nicely, but the
   `knowledge/` folder is just as usable without it — open it in any editor, or point
   another OKF-aware tool at it later.
-- **Skills are prompts, not code.** `.agents/*.md` are plain-language instructions, so
-  there's no library to install, version, or go out of date — any agent that can read a
-  file and write a file can run them.
+- **Skills are prompts, not code.** `.agents/<skill>/SKILL.md` files are plain-language
+  instructions, so there's no library to install, version, or go out of date — any agent
+  that can read a file and write a file can run them.
 
 Every one of these choices trades a bit of polish (no fancy UI, no built-in sync, no
 enforced schema beyond `type`) for staying simple enough that picking this up costs you
@@ -328,8 +357,8 @@ backlinks natively. What it actually adds is narrower and more honest:
 - **An open, tool-agnostic file format** ([OKF](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing))
   instead of a proprietary export format — the files are still just yours if you ever
   stop using Obsidian, Mindbase, or both.
-- **An agent-native capture habit** — `.agents/*.md` skills that any coding agent can run
-  to do the tedious part (writing consistent frontmatter, adding cross-links, keeping the
+- **An agent-native capture habit** — `.agents/` skills that any coding agent can run to
+  do the tedious part (writing consistent frontmatter, adding cross-links, keeping the
   folder taxonomy sane) instead of you doing that filing by hand.
 - **Zero added infrastructure** — no plugin, no database, no server; if you can read and
   write a markdown file, you can use this, and you can stop using it just as easily.
