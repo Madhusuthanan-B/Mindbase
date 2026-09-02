@@ -3,8 +3,7 @@
 **Format**: [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) (Open Knowledge Format)
 **Vault**: `knowledge/` (also the Obsidian vault root)
 
-🌐 **[View the interactive overview →](https://madhusuthanan-b.github.io/Mindbase/)** *(live once
-GitHub Pages is enabled — see [`docs/README.md`](docs/README.md#interactive-overview))*
+🌐 **[View the interactive overview →](https://madhusuthanan-b.github.io/Mindbase/)**
 
 We've always talked about knowledge in the shape of branches and trees — "a branch of
 science", a family tree, a decision tree. The oldest known attempt to actually draw this
