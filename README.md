@@ -4,7 +4,6 @@
 **Vault**: `knowledge/` (also the Obsidian vault root)
 
 🌐 **[View the interactive overview →](https://madhusuthanan-b.github.io/Mindbase/)**
-
 We've always talked about knowledge in the shape of branches and trees — "a branch of
 science", a family tree, a decision tree. The oldest known attempt to actually draw this
 out is the <a href="https://www.quora.com/What-is-a-porphyrian-tree" target="_blank" rel="noopener">**Porphyrian Tree**</a>, sketched by the philosopher Porphyry in the 3rd century AD
@@ -12,13 +11,18 @@ as a commentary on Aristotle — the first known branching diagram used to class
 concepts, splitting broad categories into narrower and narrower ones. Mindbase runs on
 that same instinct, made practical: a bare-minimal, **domain-agnostic** personal knowledge
 base — capture whatever you work with as plain markdown files, browse and query them via a
-handful of agent skills, and watch the relationships form a colorful graph in Obsidian.
+handful of agent skills, and optionally watch the relationships form a colorful graph in
+Obsidian — that's an internal choice, not a requirement; any tool that can view markdown
+works just as well.
 
 ## The problem
 
 Most of what we learn — at work or anywhere else — never gets written down anywhere
-useful: it's buried in a WhatsApp chat, an email thread, a voice recording, a web page you
-skimmed once, or scattered across three different note apps. And when something does get
+useful: it's buried in a WhatsApp chat, a Teams thread, an email you'll never find again, a
+voice recording, a web page you skimmed once, an internal wiki page that's gone stale,
+a personal notes file, a browser bookmark you'll never revisit, a ticket sitting on some
+board, a to-do list on your phone or PC, or scattered across three different note-taking
+apps — and a dozen other places besides. And when something does get
 written down, it's usually one flat note, disconnected from everything else it relates
 to — so when you actually need it, you're piecing it together from memory instead of just
 looking it up. Fixing that used to mean adopting yet another note-taking app or getting a
@@ -105,7 +109,7 @@ anywhere, the right column is the Claude Code shortcut for it.
    fit your own domain (or skip this and just start capturing into `concepts/`):
 
    | Say (any agent) | Claude Code |
-   |---|---|
+   | --- | --- |
    | "I'm a software engineer — set up Mindbase for me." | `/brain-setup I'm a software engineer — set up Mindbase for me` |
    | "Set up the right kind of knowledge structure for me — suggest a few options and I'll pick one." | `/brain-setup suggest a few folder structures and I'll pick one` |
    | "I'm a project manager. I work on client engagements — contracts, deadlines, deliverables. Suggest folders that fit that." | `/brain-setup I'm a project manager, I work on client engagements — contracts, deadlines, deliverables, suggest folders that fit that` |
@@ -116,7 +120,7 @@ anywhere, the right column is the Claude Code shortcut for it.
    happened, in your own words:
 
    | Say (any agent) | Claude Code |
-   |---|---|
+   | --- | --- |
    | "I just set up Mindbase as my personal knowledge base, following the OKF spec." | `/brain-capture I just set up Mindbase as my personal knowledge base, following the OKF spec.` |
    | "Met with Priya today — we decided to use OKF v0.2 for the team wiki instead of Confluence." | `/brain-capture Met with Priya today — we decided to use OKF v0.2 for the team wiki instead of Confluence.` |
    | "Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use." | `/brain-capture Quick note on Obsidian: it's the markdown editor we're using to browse the graph, free for personal use.` |
@@ -128,7 +132,7 @@ anywhere, the right column is the Claude Code shortcut for it.
    / timeline / tags / summary:
 
    | Say (any agent) | Claude Code |
-   |---|---|
+   | --- | --- |
    | "Search for anything about the new pricing model." | `/brain-query search pricing model` |
    | "Explore the Q3 roadmap decision — what's connected to it?" | `/brain-query explore q3-roadmap` |
    | "List everything tagged as a decision." | `/brain-query list decisions` |
@@ -141,7 +145,7 @@ anywhere, the right column is the Claude Code shortcut for it.
    of upkeep you want, in your own words (`health` is the good default to start with):
 
    | Say (any agent) | Claude Code |
-   |---|---|
+   | --- | --- |
    | "Check my knowledge base for broken links, orphan notes, or anything stale." | `/brain-maintain health` |
    | "Take a look at my folders and tell me if any should be merged, split, or renamed." | `/brain-maintain reorganize` |
    | "'draft-notes' and 'okf-spec' are the same thing — merge them." | `/brain-maintain merge draft-notes okf-spec` |
@@ -155,7 +159,7 @@ fixed taxonomy, and this bundle deliberately doesn't assume one either. `brain-s
 offers a few starter presets:
 
 | Persona | Folders |
-|---|---|
+| --- | --- |
 | Generic / general knowledge worker | `concepts/`, `people/`, `projects/`, `decisions/`, `resources/` |
 | Software engineering | `concepts/`, `technologies/`, `meetings/`, `decisions/`, `projects/`, `people/`, `products/` |
 | Medical / healthcare | `concepts/`, `cases/`, `guidelines/`, `research/`, `people/`, `meetings/` |
@@ -181,7 +185,7 @@ retiring as the bundle evolves. Full detail lives in `knowledge/README.md`.
 ## Skills (`.agents/`)
 
 | Skill | Purpose |
-|---|---|
+| --- | --- |
 | `brain-setup` | Bootstrap a brand-new Mindbase workspace, persona-driven folder picker |
 | `brain-capture` | Turn notes/meeting summaries into OKF concept files + links; grows new folders organically when needed |
 | `brain-query` | Search, explore neighborhoods, list by type, find paths, timeline, tags, summary |
@@ -294,6 +298,13 @@ Important notes, gotchas, how it's used.
 bundle; there's no fixed set.)
 
 ## Obsidian
+
+Obsidian is not a prerequisite — it's an internal choice this template happens to ship
+with pre-colored graph settings for, not a dependency `knowledge/` requires. You can use
+Mindbase perfectly well without ever opening it: `knowledge/` is just a folder of plain
+markdown files, so any markdown viewer, editor, or IDE (VS Code, a static-site generator,
+`cat`, whatever you already reach for) works too. Obsidian is simply a nice way to *see*
+the graph if you want the visualization.
 
 1. Open Obsidian → "Open folder as vault" → select `knowledge/`.
 2. Open Graph view (Ctrl/Cmd+G) — nodes are pre-colored by domain folder.
