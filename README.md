@@ -3,9 +3,12 @@
 **Format**: [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) (Open Knowledge Format)
 **Vault**: `knowledge/` (also the Obsidian vault root)
 
+🌐 **[View the interactive overview →](https://madhusuthanan-b.github.io/Mindbase/)** *(live once
+GitHub Pages is enabled — see [`docs/README.md`](docs/README.md#interactive-overview))*
+
 We've always talked about knowledge in the shape of branches and trees — "a branch of
 science", a family tree, a decision tree. The oldest known attempt to actually draw this
-out is the **Porphyrian Tree**, sketched by the philosopher Porphyry in the 3rd century AD
+out is the <a href="https://www.quora.com/What-is-a-porphyrian-tree" target="_blank" rel="noopener">**Porphyrian Tree**</a>, sketched by the philosopher Porphyry in the 3rd century AD
 as a commentary on Aristotle — the first known branching diagram used to classify
 concepts, splitting broad categories into narrower and narrower ones. Mindbase runs on
 that same instinct, made practical: a bare-minimal, **domain-agnostic** personal knowledge
