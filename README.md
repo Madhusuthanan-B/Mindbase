@@ -4,6 +4,7 @@
 **Vault**: `knowledge/` (also the Obsidian vault root)
 
 🌐 **[View the interactive overview →](https://madhusuthanan-b.github.io/Mindbase/)**
+
 We've always talked about knowledge in the shape of branches and trees — "a branch of
 science", a family tree, a decision tree. The oldest known attempt to actually draw this
 out is the <a href="https://www.quora.com/What-is-a-porphyrian-tree" target="_blank" rel="noopener">**Porphyrian Tree**</a>, sketched by the philosopher Porphyry in the 3rd century AD
