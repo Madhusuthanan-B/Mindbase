@@ -54,6 +54,11 @@ budgeting and investment research, a `mindbase-health` repo for medical history,
 that's how you connect the dots. The boundary between vaults — by domain, by life vs.
 work, or no boundary at all — is a decision the tool leaves entirely to you.
 
+Installed the [Claude Code plugin](#install) instead of cloning? Same idea, no cloning
+needed — a "vault" is just whichever project folder you currently have open, so
+`mindbase-work`, `mindbase-finance`, etc. become project folders you switch between
+instead of separate clones.
+
 ## Make it yours
 
 This is intentionally minimal — tweak the folders, colors, frontmatter fields, and skill
@@ -62,7 +67,7 @@ persona-driven at setup and can keep evolving afterward (see "Domains" below), s
 tool works whether you're tracking client contracts, medical cases, or code decisions,
 without forcing your work into someone else's template.
 
-**Works with any coding agent.** The skills in `.agents/` are plain markdown prompts with
+**Works with any coding agent.** The skills in `skills/` are plain markdown prompts with
 no vendor-specific syntax — they run the same way in Claude Code, GitHub Copilot, Cursor,
 or any other agent you paste them into. Claude Code additionally gets native `/brain-*`
 slash commands out of the box (see "Skills" below); other tools can get the same via a
@@ -79,7 +84,7 @@ any OKF-aware tool, not just the skills in this repo.
 
 ## Where the idea comes from
 
-The `.agents/` skills are a small, concrete take on the
+The `skills/` folder is a small, concrete take on the
 ["LLM as wiki"](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
 pattern — instead of you filing notes by hand, an agent does the writing, linking, and
 tidying: `brain-capture` writes things down as they happen, `brain-query` looks them back
@@ -92,12 +97,41 @@ scattered, genuinely made me more productive. OKF gave that habit a real, non-pr
 format instead of my own ad hoc conventions, so it seemed worth rebuilding a bare-minimal
 version properly and open-sourcing it, for anyone else who wants the same habit.
 
+## Install
+
+There are two ways to get these skills, and you can mix both across different machines
+or projects:
+
+**Clone it** (works with any coding agent, per the compatibility notes above):
+
+```bash
+git clone https://github.com/Madhusuthanan-B/Mindbase.git
+```
+
+Then open the cloned folder in your agent of choice and jump to "Getting started" below.
+
+**Install as a Claude Code plugin** (Claude Code only, no per-vault copying):
+
+```
+/plugin marketplace add Madhusuthanan-B/Mindbase
+/plugin install mindbase@mindbase-marketplace
+```
+
+This registers `/brain-setup`, `/brain-capture`, `/brain-query`, `/brain-maintain`
+globally — they work in *any* project you open in Claude Code, not just this repo.
+"Multiple vaults" (work notes, personal notes, a client's notes, ...) just means opening
+each one as its own project folder and running `brain-setup` inside it; the skill itself
+is shared, only the `knowledge/` bundle it operates on changes based on what you have
+open. When installed this way, `brain-setup` skips writing `skills/` and
+`.claude/commands/` into the new vault, since the commands are already global — it only
+creates the `knowledge/` bundle.
+
 ## Getting started
 
 Every skill takes the same **plain-language request** no matter what tool you use — the
 request itself is agent-agnostic. Only how you hand it to the agent differs:
 
-- **Any agent or chat UI**: paste the skill file (e.g. `.agents/brain-setup/SKILL.md`) as
+- **Any agent or chat UI**: paste the skill file (e.g. `skills/brain-setup/SKILL.md`) as
   your prompt, then add your plain-language request underneath it.
 - **Claude Code**: skip the paste — type the matching `/brain-*` slash command followed
   by the same request (wired via `.claude/commands/`; Cursor/Copilot equivalents are in
@@ -177,13 +211,13 @@ offers a few starter presets:
 | Custom | type your own folder list |
 
 Whichever folders you end up with get colors assigned in order from a shared 12-color
-palette (see `.agents/brain-setup/SKILL.md` for the full table — Blue, Green, Purple, Amber,
+palette (see `skills/brain-setup/SKILL.md` for the full table — Blue, Green, Purple, Amber,
 Orange, Cyan, Pink, Red, Teal, Yellow, Indigo, Gray). New folders can also appear
 **organically** through `brain-capture` when a concept doesn't fit anything existing,
 and `brain-maintain`'s taxonomy review flags folders worth merging, splitting, or
 retiring as the bundle evolves. Full detail lives in `knowledge/README.md`.
 
-## Skills (`.agents/`)
+## Skills (`skills/`)
 
 | Skill | Purpose |
 | --- | --- |
@@ -192,14 +226,16 @@ retiring as the bundle evolves. Full detail lives in `knowledge/README.md`.
 | `brain-query` | Search, explore neighborhoods, list by type, find paths, timeline, tags, summary |
 | `brain-maintain` | Health checks, merge duplicates, reorganize (incl. taxonomy review), enrich, review recent captures |
 
-**Note on `.agents/` vs Claude Code slash commands**: the canonical, vendor-neutral
-source for every skill lives in `.agents/` — Claude Code doesn't auto-load that
-directory. `.claude/commands/` ships four thin wrapper files (`brain-setup.md`,
-`brain-capture.md`, `brain-query.md`, `brain-maintain.md`), each just a couple of lines
-that say "read and follow `.agents/<skill>/SKILL.md`, using this input as `$ARGUMENTS`".
-That gives Claude Code native `/brain-setup`, `/brain-capture`, `/brain-query`,
-`/brain-maintain` slash commands for free, while keeping all the actual logic in one
-place (`.agents/`) so it never drifts out of sync between the two copies.
+**Note on `skills/` vs Claude Code slash commands**: the canonical, vendor-neutral
+source for every skill lives in `skills/` — Claude Code doesn't auto-load that
+directory from a plain clone (it does if you install Mindbase as a Claude Code plugin —
+see "Install as a Claude Code plugin" below). `.claude/commands/` ships four thin
+wrapper files (`brain-setup.md`, `brain-capture.md`, `brain-query.md`,
+`brain-maintain.md`), each just a couple of lines that say "read and follow
+`skills/<skill>/SKILL.md`, using this input as `$ARGUMENTS`". That gives Claude Code
+native `/brain-setup`, `/brain-capture`, `/brain-query`, `/brain-maintain` slash
+commands for free in a plain clone, while keeping all the actual logic in one place
+(`skills/`) so it never drifts out of sync between the two copies.
 
 Not using Claude Code? See "Using these skills in other tools" below — or just paste a
 skill file's content into any chat/agent as your prompt, with your notes or query
@@ -207,14 +243,14 @@ appended.
 
 ## Using these skills in other tools
 
-`.agents/<skill>/SKILL.md` is the single source of truth — every tool-specific wrapper
+`skills/<skill>/SKILL.md` is the single source of truth — every tool-specific wrapper
 just points back to it, so you never edit skill logic in two places.
 
 - **Claude Code**: already wired via `.claude/commands/` (see above) — `/brain-setup`,
   `/brain-capture`, `/brain-query`, `/brain-maintain` work out of the box.
 - **Cursor**: drop the same kind of one-line wrapper into `.cursor/commands/`, e.g.
   `.cursor/commands/brain-capture.md` containing "Read and follow
-  `.agents/brain-capture/SKILL.md`, using this as `$ARGUMENTS`: $ARGUMENTS" — Cursor lists
+  `skills/brain-capture/SKILL.md`, using this as `$ARGUMENTS`: $ARGUMENTS" — Cursor lists
   it as a `/brain-capture` command in chat. (Cursor Commands landed in Cursor 1.6; check
   Cursor's current docs for the exact `$ARGUMENTS`-equivalent syntax if this doesn't work
   verbatim.)
@@ -223,7 +259,7 @@ just points back to it, so you never edit skill logic in two places.
   Chat. This is a preview feature and, as of this writing, isn't available in the
   Copilot CLI.
 - **Anything else** (a different agent, a plain chat UI, an API call): no wrapper needed
-  — paste the relevant `.agents/<skill>/SKILL.md` file's content as your prompt and
+  — paste the relevant `skills/<skill>/SKILL.md` file's content as your prompt and
   append your notes or query where it says `$ARGUMENTS`. This always works, since a skill
   file is just plain instructions in markdown; native slash-command support is a
   convenience on top, not a requirement.
@@ -239,7 +275,7 @@ Mindbase/                           ← repo root (clone this anywhere)
 ├── README.md
 ├── docs/
 │   └── architecture.drawio        ← visual architecture diagram (draw.io)
-├── .agents/                      ← canonical, vendor-neutral skill definitions
+├── skills/                       ← canonical, vendor-neutral skill definitions
 │   ├── brain-setup/SKILL.md      ← bootstrap a new Mindbase workspace (persona picker)
 │   ├── brain-capture/SKILL.md    ← extract notes into OKF concepts; grows folders organically
 │   ├── brain-query/SKILL.md      ← search/explore/list/path/timeline/tags/summary
@@ -338,7 +374,7 @@ the point:
 - **Obsidian is a viewer, not a dependency.** It renders the graph nicely, but the
   `knowledge/` folder is just as usable without it — open it in any editor, or point
   another OKF-aware tool at it later.
-- **Skills are prompts, not code.** `.agents/<skill>/SKILL.md` files are plain-language
+- **Skills are prompts, not code.** `skills/<skill>/SKILL.md` files are plain-language
   instructions, so there's no library to install, version, or go out of date — any agent
   that can read a file and write a file can run them.
 
@@ -371,7 +407,7 @@ backlinks natively. What it actually adds is narrower and more honest:
 - **An open, tool-agnostic file format** ([OKF](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing))
   instead of a proprietary export format — the files are still just yours if you ever
   stop using Obsidian, Mindbase, or both.
-- **An agent-native capture habit** — `.agents/` skills that any coding agent can run to
+- **An agent-native capture habit** — `skills/` that any coding agent can run to
   do the tedious part (writing consistent frontmatter, adding cross-links, keeping the
   folder taxonomy sane) instead of you doing that filing by hand.
 - **Zero added infrastructure** — no plugin, no database, no server; if you can read and

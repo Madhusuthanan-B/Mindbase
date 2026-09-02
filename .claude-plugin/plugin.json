@@ -1,0 +1,11 @@
+{
+  "name": "mindbase",
+  "displayName": "Mindbase",
+  "version": "0.1.0",
+  "description": "Personal knowledge graph skills (setup, capture, query, maintain) built on the Open Knowledge Format (OKF) v0.2 — plain markdown, no database, works across as many vaults/projects as you open.",
+  "author": { "name": "Madhusuthanan B" },
+  "homepage": "https://madhusuthanan-b.github.io/Mindbase/",
+  "repository": "https://github.com/Madhusuthanan-B/Mindbase",
+  "license": "MIT",
+  "keywords": ["okf", "knowledge-graph", "second-brain", "pkm", "obsidian", "notes"]
+}

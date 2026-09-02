@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "mindbase-marketplace",
+  "owner": { "name": "Madhusuthanan B" },
+  "description": "Self-hosted marketplace for the Mindbase plugin — OKF-based personal knowledge graph skills (setup, capture, query, maintain).",
+  "plugins": [
+    {
+      "name": "mindbase",
+      "source": "./",
+      "description": "OKF-based personal knowledge graph skills: setup, capture, query, maintain.",
+      "category": "productivity",
+      "keywords": ["okf", "knowledge-graph", "second-brain", "pkm"],
+      "license": "MIT"
+    }
+  ]
+}

@@ -336,7 +336,9 @@
     <p class="eyebrow"><span class="num">03 /</span> Compose your own vaults</p>
     <h2>There's no single "the" vault.</h2>
     <p class="lede">Mindbase is a template, not a hosted product — clone it as many times as you want, one per
-      vault, and compose them however suits how you actually think.</p>
+      vault, and compose them however suits how you actually think. Installed the
+      <a href="#get-started">Claude Code plugin</a> instead? Same idea — a "vault" is just whichever project
+      folder you have open, so switching vaults means opening a different folder, no cloning required.</p>
     <div class="vault-demo">
       <div class="vault-chip panel" style="--vc: #5b9dd9">
         <div class="swatch"></div>
@@ -368,7 +370,7 @@
   <div class="wrap">
     <p class="eyebrow"><span class="num">04 /</span> Skills</p>
     <h2>Four skills. One vendor-neutral source.</h2>
-    <p class="lede">Every skill lives in <code>.agents/</code> as a plain markdown prompt — no vendor-specific
+    <p class="lede">Every skill lives in <code>skills/</code> as a plain markdown prompt — no vendor-specific
       syntax. Claude Code gets native <code>/brain-*</code> slash commands for free; any other agent can run the
       same skill by reading the file.</p>
     <div class="skills">
@@ -414,7 +416,7 @@
     <div class="flow">
       <div class="flow-box panel">Any coding agent<br><small>Claude Code, Cursor, Copilot…</small></div>
       <div class="flow-arrow">-&gt;</div>
-      <div class="flow-box panel">.agents/ skills<br><small>brain-setup / capture / query / maintain</small></div>
+      <div class="flow-box panel">skills/<br><small>brain-setup / capture / query / maintain</small></div>
       <div class="flow-arrow">-&gt;</div>
       <div class="flow-box panel">knowledge/ bundle<br><small>OKF v0.2 markdown files</small></div>
       <div class="flow-arrow">-&gt;</div>
@@ -461,16 +463,22 @@
 <section id="get-started">
   <div class="wrap">
     <p class="eyebrow"><span class="num">07 /</span> Get started</p>
-    <h2>From clone to first captured concept.</h2>
+    <h2>From clone (or plugin install) to first captured concept.</h2>
     <ol class="steps">
-      <li><strong>Clone the repo</strong> anywhere you like.
+      <li><strong>Get the skills</strong> — clone the repo (works with any coding agent), or if you're on
+        Claude Code, install it as a plugin instead (skills register globally, nothing to copy per vault):
         <div class="code-block">
           <pre><code>git clone https://github.com/Madhusuthanan-B/Mindbase.git</code></pre>
           <button class="copy-btn">copy</button>
         </div>
+        <div class="code-block chat">
+          <pre><code>/plugin marketplace add Madhusuthanan-B/Mindbase
+/plugin install mindbase@mindbase-marketplace</code></pre>
+          <button class="copy-btn">copy</button>
+        </div>
       </li>
       <li><strong>Bootstrap your workspace</strong> — tell your agent what you do, in plain language. (Claude
-        Code users get this natively as <code>/brain-setup</code>.)
+        Code users get this natively as <code>/brain-setup</code>, whichever way you installed it.)
         <div class="code-block chat">
           <pre><code>Set up Mindbase for me — I'm a software engineer.</code></pre>
           <button class="copy-btn">copy</button>

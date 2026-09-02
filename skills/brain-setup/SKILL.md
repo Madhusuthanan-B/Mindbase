@@ -31,7 +31,7 @@ domain looks like, rather than assuming one.
 ```
 <MINDBASE_ROOT>/
 ├── README.md                     ← Architecture + usage docs
-├── .agents/                      ← canonical, vendor-neutral skills (each a folder)
+├── skills/                       ← canonical, vendor-neutral skills (each a folder)
 │   ├── brain-setup/SKILL.md      ← This file
 │   ├── brain-capture/SKILL.md
 │   ├── brain-query/SKILL.md
@@ -55,11 +55,16 @@ domain looks like, rather than assuming one.
         └── graph.json            ← colorGroups, one per chosen domain folder
 ```
 
-Note: skills live under `.agents/`, not `.claude/commands/`. Claude Code does not
-auto-load `.agents/` as slash commands — if the user wants `/brain-capture` etc. to work
-natively in Claude Code, they (or you, if asked) must also write thin wrapper files into
-`<MINDBASE_ROOT>/.claude/commands/`. Don't do this unprompted; it's a deliberate choice
-to keep the skill definitions vendor-neutral.
+The `skills/` and `.claude/commands/` rows above only apply when you're running from a
+**cloned copy** of this repo — see the plugin-mode guard in Step 5. If this skill is
+running as an installed Claude Code plugin, `/brain-capture` etc. are already globally
+available, so this step only ever creates the `knowledge/` bundle.
+
+Note (clone mode only): skills live under `skills/`, not `.claude/commands/`. Claude
+Code does not auto-load `skills/` from a plain clone as slash commands — if the user
+wants `/brain-capture` etc. to work natively in Claude Code, they (or you, if asked)
+must also write thin wrapper files into `<MINDBASE_ROOT>/.claude/commands/`. Don't do
+this unprompted; it's a deliberate choice to keep the skill definitions vendor-neutral.
 
 ## Step 1 — Gather configuration
 
@@ -99,11 +104,12 @@ Confirm the final folder list before proceeding.
 
 ```bash
 mkdir -p "<MINDBASE_ROOT>/knowledge/.obsidian"
-mkdir -p "<MINDBASE_ROOT>/.agents"
 for folder in <chosen-folder-list>; do
   mkdir -p "<MINDBASE_ROOT>/knowledge/$folder"
 done
 ```
+
+(`<MINDBASE_ROOT>/skills` is only created in clone mode — see the guard in Step 5.)
 
 ## Step 3 — Write index.md, README.md, and log.md
 
@@ -258,9 +264,18 @@ via `R*65536 + G*256 + B` instead of extending this table indefinitely.
 > existing file first and merge `colorGroups` in — don't clobber `scale`,
 > `centerStrength`, `repelStrength`, which Obsidian rewrites as the user pans/zooms.
 
-## Step 5 — Write skills to .agents/, and Claude Code commands
+## Step 5 — Write skills to skills/, and Claude Code commands
 
-Copy these four skill folders verbatim into `<MINDBASE_ROOT>/.agents/`, each containing
+Before doing this step, check whether you (this skill) are running from an installed
+plugin (your own `SKILL.md` path contains `.claude/plugins/`) or from a directly cloned
+copy of this repo.
+- **Installed as a plugin**: skip this step entirely — `/brain-capture`, `/brain-query`,
+  `/brain-maintain`, `/brain-setup` are already globally available in every project;
+  copying files or writing wrappers would be redundant. Go straight to Step 6.
+- **Cloned repo**: proceed as documented below — copy the four skill folders and write
+  `.claude/commands/` wrapper files so the commands work natively in this one checkout.
+
+Copy these four skill folders verbatim into `<MINDBASE_ROOT>/skills/`, each containing
 its `SKILL.md`:
 1. `brain-capture/`
 2. `brain-query/`
@@ -282,13 +297,13 @@ changes:
 description: <one-line purpose, matching the skill's row in the Skills table>
 ---
 
-Read and follow `.agents/<skill-name>/SKILL.md` in full, then execute it, treating
+Read and follow `skills/<skill-name>/SKILL.md` in full, then execute it, treating
 everything below this line as its `$ARGUMENTS`:
 
 $ARGUMENTS
 ```
 
-This keeps `.agents/` as the single source of truth — the wrapper never duplicates skill
+This keeps `skills/` as the single source of truth — the wrapper never duplicates skill
 logic, so future edits to a skill only need to happen in one place. Skills are plain
 markdown with no vendor lock-in, so the same wrapper pattern also works for other
 agent tools (e.g. `.cursor/commands/`, `.github/prompts/*.prompt.md`) — see the
@@ -305,7 +320,7 @@ tools the user actually mentions using.
 **Created**: <TODAY>
 **Format**: [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)
 
-## Skills (.agents/)
+## Skills
 
 | Skill | Purpose |
 |---|---|
@@ -314,12 +329,21 @@ tools the user actually mentions using.
 | brain-maintain | Health check, merge, enrich, reorganize, taxonomy review |
 | brain-setup | Bootstrap a new Mindbase workspace (persona-driven folder picker) |
 
-The canonical copy of each skill lives under `.agents/<skill-name>/SKILL.md`;
+<!-- Clone mode: -->
+The canonical copy of each skill lives under `skills/<skill-name>/SKILL.md`;
 `.claude/commands/` ships thin wrappers pointing back to them, so `/brain-capture` etc.
 already work natively in Claude Code. These are plain markdown prompts with no vendor
 lock-in — the same wrapper pattern works for other agent tools too (Cursor's
 `.cursor/commands/`, GitHub Copilot's `.github/prompts/*.prompt.md`), or just paste a
 skill file's content into any chat/agent as your prompt.
+
+<!-- Plugin mode: -->
+These skills are installed globally as the Mindbase Claude Code plugin (not copied into
+this workspace) — `/brain-capture` etc. already work natively here and in every other
+project you open.
+
+(Use whichever paragraph above matches how this workspace was set up — clone or plugin —
+and delete the other when writing this file.)
 
 ## Domains
 
@@ -343,10 +367,12 @@ section — Obsidian renders these as graph edges automatically.
 - [ ] `knowledge/log.md` exists with a creation entry naming the persona and folder list
 - [ ] Every chosen folder exists with an `index.md` stub
 - [ ] `knowledge/.obsidian/graph.json` has one colorGroup per chosen folder
-- [ ] `.agents/` contains all 4 skill folders, each with a `SKILL.md`
-- [ ] `.claude/commands/` contains all 4 wrapper files, each pointing to its
-      `.agents/<skill-name>/SKILL.md` counterpart
 - [ ] Workspace `README.md` exists and lists the actual chosen folders (not a fixed set)
+
+Clone mode only (skip these two if running as an installed plugin — see Step 5):
+- [ ] `skills/` contains all 4 skill folders, each with a `SKILL.md`
+- [ ] `.claude/commands/` contains all 4 wrapper files, each pointing to its
+      `skills/<skill-name>/SKILL.md` counterpart
 
 Then instruct the user:
 1. **Open Obsidian** → "Open folder as vault" → select `<MINDBASE_ROOT>/knowledge/`

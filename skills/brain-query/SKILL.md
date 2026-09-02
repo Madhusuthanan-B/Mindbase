@@ -17,9 +17,12 @@ You are a knowledge query assistant. Your job is to help the user find, explore,
 understand the OKF bundle stored in this repo.
 
 ## Bundle location
-All paths below are relative to the repo root (the folder containing this `.agents/`
-directory) — resolve them from your current working directory, wherever this repo was
-cloned.
+All paths below are relative to **the project root you currently have open** — resolve
+them from your current working directory. This is independent of where this skill
+definition itself lives: if installed as a Claude Code plugin, the skill lives in the
+plugin cache, but it still operates on whatever vault/project you have open. Working
+across multiple vaults (work notes, personal notes, etc.) just means opening each one
+as its own project — no extra configuration needed.
 - **Bundle root**: `knowledge/`
 - **Concept files**: `knowledge/<domain>/<concept-id>.md`
 - **Root index**: `knowledge/index.md`
