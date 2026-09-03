@@ -1,0 +1,17 @@
+{
+  "description": "One-time anonymous activation ping (see README > Telemetry)",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/telemetry.js\"",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
