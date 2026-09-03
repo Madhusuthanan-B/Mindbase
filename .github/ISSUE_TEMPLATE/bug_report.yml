@@ -1,0 +1,70 @@
+name: Bug report
+description: Something a Mindbase skill (or the telemetry hook) does wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you run, and what went wrong?
+      placeholder: "e.g. `brain-capture` produced a note with invalid frontmatter"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of Mindbase is affected?
+      options:
+        - brain-setup
+        - brain-capture
+        - brain-query
+        - brain-maintain
+        - Telemetry hook (hooks/telemetry.js)
+        - Plugin install/marketplace
+        - Docs
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `/plugin install mindbase@...`
+        2. Invoke `brain-capture` with ...
+        3. See error / wrong output
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: Mindbase version
+      description: See `.claude-plugin/plugin.json` in your installed copy, or `/plugin list`
+    validations:
+      required: false
+
+  - type: input
+    id: claude-code-version
+    attributes:
+      label: Claude Code version
+      description: Output of `claude --version`
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Logs, screenshots, or a snippet of the bad output. Please redact anything sensitive from your own notes/vault.
+    validations:
+      required: false
