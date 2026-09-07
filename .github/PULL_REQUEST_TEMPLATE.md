@@ -12,7 +12,7 @@
 - [ ] New feature
 - [ ] Skill improvement (`skills/*/SKILL.md`)
 - [ ] Docs
-- [ ] Telemetry hook (`hooks/telemetry.js`) — see [CONTRIBUTING.md](../CONTRIBUTING.md#testing-changes) for the invariants this must preserve
+- [ ] Telemetry ping (`hooks/telemetry.sh`) — see [CONTRIBUTING.md](../CONTRIBUTING.md#testing-changes) for the invariants this must preserve
 - [ ] Other
 
 ## How was this tested?
