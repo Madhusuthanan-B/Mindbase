@@ -34,8 +34,8 @@ nothing installed outside the Claude Code plugin cache.
 Covered in full in the [README](README.md#telemetry); summarized here for the security
 angle specifically:
 
-- **On by default, but disclosed before anything sends**, and off entirely in CI or any
-  non-interactive session.
+- **On by default, but disclosed before anything sends**, and off entirely in CI
+  (detected via the `CI` environment variable).
 - **Opt-out**: `DO_NOT_TRACK=1`, `MINDBASE_TELEMETRY=0`, or delete
   `~/.mindbase/telemetry.json`.
 - **Payload is minimal and non-identifying**: plugin version, OS, and Node version only —

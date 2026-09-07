@@ -14,10 +14,8 @@
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const crypto = require('node:crypto');
 
-const POSTHOG_API_KEY = 'phc_w34ThVcADzqFCNpgcLWAaqkbvpHopBVXvVnjvYA3tQtv'; // PostHog project 53802 — public write-only key, safe to commit
-const POSTHOG_URL = 'https://us.i.posthog.com/capture/';
+const GOATCOUNTER_URL = 'https://mindbase.goatcounter.com/count';
 const REQUEST_TIMEOUT_MS = 3000; // hard cap on the network call
 const WATCHDOG_MS = 5000; // absolute cap: force-exit no matter what hangs
 
@@ -38,13 +36,12 @@ async function main() {
   // Every branch below is wrapped so an unexpected error — a bad config file, a
   // crypto/env quirk, anything — is swallowed here rather than propagating up.
   try {
-    if (!process.stdout.isTTY || process.env.CI) return; // non-interactive: stay silent, persist nothing
+    if (process.env.CI) return; // non-interactive CI environment: stay silent, persist nothing
 
     const config = readConfig();
     if (config.activationSentAt) return; // already handled, ever — nothing to do
 
     const enabled = resolveEnabled(config);
-    const distinctId = config.distinctId || crypto.randomUUID();
     const now = new Date().toISOString();
 
     console.log(
@@ -54,12 +51,12 @@ async function main() {
         'https://github.com/Madhusuthanan-B/Mindbase#telemetry'
     );
 
-    writeConfig({ distinctId, enabled, disclosedAt: config.disclosedAt || now, activationSentAt: now });
+    writeConfig({ enabled, disclosedAt: config.disclosedAt || now, activationSentAt: now });
 
     if (!enabled) return;
 
     try {
-      await sendEvent(distinctId);
+      await sendEvent();
     } catch {
       // a network failure (or anything sendEvent throws) must never surface
     }
@@ -101,7 +98,7 @@ function writeConfig(config) {
   }
 }
 
-async function sendEvent(distinctId) {
+async function sendEvent() {
   if (typeof fetch !== 'function') return; // older Node without global fetch: skip rather than risk a hang
 
   let version = '0.0.0';
@@ -111,22 +108,16 @@ async function sendEvent(distinctId) {
     // fall back to default above
   }
 
-  const body = JSON.stringify({
-    api_key: POSTHOG_API_KEY,
-    event: 'plugin_activated',
-    distinct_id: distinctId,
-    properties: {
-      plugin: 'mindbase',
-      version,
-      os: process.platform,
-      node: process.version,
-    },
+  const params = new URLSearchParams({
+    p: '/plugin-activated',
+    t: `v${version} · ${process.platform} · node ${process.version}`,
+    e: 'true', // record as an event, not a pageview
   });
 
-  await fetch(POSTHOG_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body,
+  await fetch(`${GOATCOUNTER_URL}?${params.toString()}`, {
+    method: 'GET',
+    // GoatCounter drops hits from requests that look bot-like (no/empty User-Agent); a plain UA keeps this counted.
+    headers: { 'User-Agent': 'Mindbase-Plugin-Telemetry' },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
 }
