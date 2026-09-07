@@ -109,8 +109,8 @@ async function sendEvent() {
   }
 
   const params = new URLSearchParams({
-    p: '/plugin-activated',
-    t: `v${version} · ${process.platform} · node ${process.version}`,
+    p: `/plugin-activated/v${version}`, // version in the path so it's its own row in the dashboard
+    t: `${process.platform} · node ${process.version}`,
     e: 'true', // record as an event, not a pageview
   });
 
