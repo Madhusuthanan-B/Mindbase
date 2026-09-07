@@ -54,8 +54,8 @@ There's no automated test suite — validate manually:
   it has to preserve. Run it directly (`node hooks/telemetry.js`) and confirm
   it still exits quickly and cleanly, including with `DO_NOT_TRACK=1` set and
   with `~/.mindbase/telemetry.json` deleted.
-- **Plugin manifest changes** (`.claude-plugin/plugin.json`, `hooks/hooks.json`):
-  run `claude plugin validate .` before submitting.
+- **Plugin manifest changes** (`.claude-plugin/plugin.json`, including its
+  `hooks` block): run `claude plugin validate .` before submitting.
 
 ## Style
 
