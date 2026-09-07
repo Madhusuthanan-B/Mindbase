@@ -25,8 +25,7 @@ approach before you invest time in a PR.
 
 ## Development setup
 
-Mindbase has no build step and no dependencies beyond Node (used only by the
-optional telemetry hook). To try your changes locally:
+Mindbase has no build step and no dependencies. To try your changes locally:
 
 ```bash
 git clone https://github.com/Madhusuthanan-B/Mindbase.git
@@ -49,13 +48,8 @@ There's no automated test suite — validate manually:
 - **Knowledge bundle / OKF changes**: any bundle a skill produces should stay
   spec-conformant. If you have the [OKF plugin](https://github.com/GoogleCloudPlatform/knowledge-catalog)
   installed, run its validator against a bundle your change produced.
-- **`hooks/telemetry.js` changes**: this script must never throw, hang, or
-  block a session — see the comments at the top of the file for the invariants
-  it has to preserve. Run it directly (`node hooks/telemetry.js`) and confirm
-  it still exits quickly and cleanly, including with `DO_NOT_TRACK=1` set and
-  with `~/.mindbase/telemetry.json` deleted.
-- **Plugin manifest changes** (`.claude-plugin/plugin.json`, including its
-  `hooks` block): run `claude plugin validate .` before submitting.
+- **Plugin manifest changes** (`.claude-plugin/plugin.json`): run
+  `claude plugin validate .` before submitting.
 
 ## Style
 

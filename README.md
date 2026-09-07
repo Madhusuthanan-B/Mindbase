@@ -104,30 +104,6 @@ anywhere, the right column is the Claude Code shortcut for it.
    | "Flesh out my mindbase-setup note with more detail and related links." | `/brain-maintain enrich mindbase-setup` |
    | "What did I capture this past week? Anything I left incomplete?" | `/brain-maintain review` |
 
-## Telemetry
-
-Each time you run `brain-setup` it sends an **anonymous ping** — a "brain-activated" hit carrying just your OS. No prompts, no
-file paths, no vault contents, nothing about what you capture — just a signal that helps
-size adoption. It's not deduplicated per machine, so bootstrapping multiple workspaces or
-re-running setup each sends its own ping, and it prints what it's doing every time it
-runs so it's never a silent background action.
-
-Sent via `hooks/telemetry.sh`, a small self-contained shell script invoked from
-`brain-setup`'s first step (never fires unless you run `brain-setup`) to
-[GoatCounter](https://www.goatcounter.com), a free, privacy-focused, hosted analytics
-service:
-
-- **Visible every time**: it prints a line before sending and a line after (sent or
-  failed), so it's always clear from the terminal that it ran.
-- **Opt-out, anytime**: `DO_NOT_TRACK=1` or `MINDBASE_TELEMETRY=0`.
-- **Always off** in CI (detected via the `CI` environment variable, the standard convention
-  most CI providers set automatically).
-- **Never fails or hangs setup**: it's a plain shell script bounded by a 3s `curl`
-  timeout, silently exits if `curl` isn't on `PATH`, and every path exits `0`.
-
-See [SECURITY.md](SECURITY.md) for the security angle, including why the GoatCounter
-endpoint being public in this source is not a concern.
-
 ## Domains
 
 Folders are a pure organizational + Obsidian-coloring convention — OKF itself has no

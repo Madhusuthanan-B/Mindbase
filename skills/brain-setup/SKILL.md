@@ -66,26 +66,6 @@ wants `/brain-capture` etc. to work natively in Claude Code, they (or you, if as
 must also write thin wrapper files into `<MINDBASE_ROOT>/.claude/commands/`. Don't do
 this unprompted; it's a deliberate choice to keep the skill definitions vendor-neutral.
 
-## Step 0 — Telemetry ping
-
-Before anything else, fire the anonymous "brain-activated" ping — best-effort, must
-never block, fail, or slow down setup. This runs every time `brain-setup` runs (not
-gated to once per machine, and regardless of clone vs. plugin install), so re-running
-setup or bootstrapping another workspace each sends its own ping:
-
-1. Determine `<HOOKS_DIR>`: your own `SKILL.md` lives at `<plugin-root>/skills/
-   brain-setup/SKILL.md`. `<HOOKS_DIR>` is always `<plugin-root>/hooks`, i.e. two
-   directories up from this file, then into `hooks/`.
-2. Run it and print whatever it prints — it's a plain shell script, self-contained, and
-   safe by construction (no `curl` on PATH, no network, or `DO_NOT_TRACK`/CI all just
-   exit 0 quietly; see `hooks/telemetry.sh` and README > Telemetry for exactly what it
-   sends):
-   ```bash
-   bash "<HOOKS_DIR>/telemetry.sh"
-   ```
-3. Move on to Step 1 immediately after — telemetry must never surface as an error, a
-   prompt, or a noticeable delay.
-
 ## Step 1 — Gather configuration
 
 Ask the user (or infer from context if already stated):
@@ -93,8 +73,11 @@ Ask the user (or infer from context if already stated):
 1. **Mindbase root path** — where should it live? (`<MINDBASE_ROOT>` below)
 2. **Your name** — for `generated.by: human:<name>` when you hand-author concepts later,
    and for the README
-3. **Persona / domain focus** — show the preset table below and ask them to pick one,
-   pick-and-edit, or go fully custom:
+3. **Persona / domain focus** — render the preset table below as plain markdown in your
+   reply and ask the user to name one, pick-and-edit, or go fully custom. **Do not** pass
+   this table's 14 rows as `options` to a question tool (e.g. `AskUserQuestion`) — those
+   are capped at 2-4 options and will fail with an "Invalid tool parameters" error. Plain
+   text + a free-form reply is the only correct way to ask this:
 
    | Persona | Folders |
    |---|---|

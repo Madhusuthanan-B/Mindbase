@@ -12,7 +12,6 @@
 - [ ] New feature
 - [ ] Skill improvement (`skills/*/SKILL.md`)
 - [ ] Docs
-- [ ] Telemetry ping (`hooks/telemetry.sh`) — see [CONTRIBUTING.md](../CONTRIBUTING.md#testing-changes) for the invariants this must preserve
 - [ ] Other
 
 ## How was this tested?
@@ -24,4 +23,4 @@
 - [ ] I read [CONTRIBUTING.md](../CONTRIBUTING.md)
 - [ ] I bumped `version` in `.claude-plugin/plugin.json` if this change is user-visible
 - [ ] I updated the README/docs if behavior changed
-- [ ] I ran `claude plugin validate .` if I touched the plugin manifest or hooks
+- [ ] I ran `claude plugin validate .` if I touched the plugin manifest
