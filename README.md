@@ -3,6 +3,7 @@
 **Format**: [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) (Open Knowledge Format)
 **Vault**: `knowledge/` (also the Obsidian vault root)
 **Install**: `git clone`, or as a [Claude Code plugin](#install) — no cloning needed
+**Dependencies**: none — plain markdown files, no database, no server, no SDK
 
 🌐 **[View the interactive overview →](https://madhusuthanan-b.github.io/Mindbase/)**
 
@@ -318,5 +319,5 @@ issue? See [SECURITY.md](SECURITY.md) instead of opening a public issue.
   idea comes from, and using it beyond work
 - [`docs/design.md`](docs/design.md) — why it's dependency-free and built to be tweaked
 - [`docs/comparisons.md`](docs/comparisons.md) — how it differs from code-graph tools and
-  an agent's built-in memory
+  agent memory, built-in or bolted on
 - [`docs/architecture.drawio`](docs/architecture.drawio) — visual architecture diagram

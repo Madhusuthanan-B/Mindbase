@@ -42,6 +42,24 @@ subscription, or admin console required. A graph doesn't have the flat-document 
 either: you can follow how a decision came about, or see everything tied to a project at a
 glance, instead of relying on memory or search-and-hope.
 
+## A human in the loop, on purpose
+
+Mindbase doesn't auto-capture everything an agent sees, or sync in from a dozen
+connected tools that each add their own layer of noise until you stop reading any of
+them. You decide what's actually worth writing down, and the agent handles the
+mechanics — frontmatter, cross-links, folder placement. The graph only ever holds what
+you decided mattered, which is what keeps it worth reading months later instead of
+becoming one more pile to dig through.
+
+It's the same instinct behind [kakeibo](https://en.wikipedia.org/wiki/Kakeibo), the
+Japanese practice of writing expenses down by hand instead of letting an app
+auto-track them — the small effort of choosing what to record is what makes you
+actually notice it.
+
+This also keeps the tool itself simple: no vector database to provision, no embedding
+pipeline to babysit, no ingestion service to keep patched and running. A handful of
+markdown files, curated by hand, is something you can trust to still work in a year.
+
 ## Beyond work
 
 This isn't just a work habit, either. The same idea works for any domain where the raw

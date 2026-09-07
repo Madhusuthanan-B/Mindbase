@@ -31,34 +31,37 @@ backlinks natively. What it actually adds is narrower and more honest:
 - **Zero added infrastructure** — no plugin, no database, no server; if you can read and
   write a markdown file, you can use this, and you can stop using it just as easily.
 
-## An agent's built-in memory
+## Agent memory — built-in, or bolted on
 
-Some agent platforms now ship their own memory feature — Claude's memory tool, for
-example, lets an agent read and write files across sessions so it doesn't lose context on
-a long task. It's fair to ask whether Mindbase is reinventing that. Right now, no — they
-solve different problems:
+Some agent platforms now ship memory as a built-in feature, letting an agent maintain
+its own context file across sessions so it doesn't lose the plot on a long task. A
+growing ecosystem of open-source memory servers does something similar from the
+outside — different tools, different storage underneath (some vector-backed, some
+local SQLite/full-text search, some plain markdown) — but almost all of them scoped to
+one codebase or one agent's own sessions, built to make that agent's own recall cheaper
+and faster, not to give a human something to read. It's fair to ask whether Mindbase is
+reinventing that. It isn't — they solve different problems:
 
-- **Scoped to one agent vs. a shared vault.** Agent memory is client-side storage the
-  model reads and writes inside one tool's own sessions (e.g. `/memories` in Claude's
-  tool) — it's built to survive within that integration, not to be handed to a different
-  agent or opened by a human. A Mindbase vault is plain markdown any agent, or you, can
-  open next week whether or not it's this week's tool.
-- **Loose notes vs. a typed graph.** Agent memory is files the model tidies as it goes —
-  no concept types, no cross-linking model, no way to walk "what does this decision
-  connect to" as a graph. The linked, typed OKF graph is the entire point of Mindbase, not
-  a side effect of notes an agent happened to keep.
-- **Invisible by design vs. yours to curate.** You're not meant to browse an agent's
-  memory directory. A Mindbase vault is meant to be opened, read, and edited directly —
-  in Obsidian, in a text editor, by hand — with the agent as a contributor to it, not the
-  sole owner of it.
+- **Scope: a vault you carry, not a project cache.** Most agent memory — built-in or
+  bolted on — is scoped to one tool's sessions or one codebase. A Mindbase vault spans
+  whatever domains you want — work, finance, health, anything — plain markdown any
+  agent, or you, can open next week whether or not it's this week's tool.
+- **Audience: built for you, not just the agent.** Even memory tools with a graph or
+  index underneath build it to make the agent's own recall faster and cheaper.
+  Mindbase's graph exists so *you* can browse, query, and learn from it directly — the
+  agent is a contributor, not the only reader.
+- **Ownership: yours to curate, not invisible.** Agent memory isn't meant to be
+  browsed — you'd have to ask the agent for it back. A Mindbase vault is meant to be
+  opened, edited, and curated directly, in Obsidian or any text editor, with the agent
+  contributing to it rather than owning it.
 
-Worth being honest about the trajectory here: agent platforms are actively building out
-memory, and it's reasonable to expect more of this — cross-session recall, maybe even
-structure — to become a native feature over time. If that happens, that's a good outcome;
-the underlying need (durable, connected knowledge) gets met either way, and this
-comparison describes the current state, not a permanent moat. What's a deliberate design
-choice rather than a placeholder is the part unlikely to change regardless: **open
-format, portable across whatever agent you use, and readable without one in the loop at
-all.**
+Honestly, the right answer depends on what you're trying to do and how complex it is.
+If the problem is "my agent forgets mid-task," a purpose-built memory layer is the
+right tool for that job — use it, that's a good outcome, not a threat. If the problem
+is "I want a knowledge base I can browse, curate, and learn from myself, across
+whatever I'm working on," that's a different job — the one Mindbase is built for: an
+open format, portable across whatever agent you use, readable without one in the loop
+at all, with a human still deciding what's worth recording instead of an agent
+capturing everything on your behalf.
 
 See also: [Why Mindbase](why-mindbase.md), [Design choices](design.md).
