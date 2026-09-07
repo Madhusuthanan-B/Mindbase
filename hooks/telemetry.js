@@ -57,8 +57,11 @@ async function main() {
 
     try {
       await sendEvent();
-    } catch {
-      // a network failure (or anything sendEvent throws) must never surface
+      console.log('[mindbase] activated.');
+    } catch (err) {
+      // a network failure (or anything sendEvent throws) must never surface as an error,
+      // but logging it (rather than swallowing silently) makes send failures visible for debugging.
+      console.log('[mindbase] activation check failed (harmless): ' + (err && err.message));
     }
   } catch {
     // belt-and-suspenders: an unexpected error anywhere above must never block
