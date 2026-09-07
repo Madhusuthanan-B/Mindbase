@@ -15,7 +15,7 @@ command -v curl >/dev/null 2>&1 || exit 0
 echo "[mindbase] telemetry: sending anonymous brain-activated ping (opt out with DO_NOT_TRACK=1)..."
 
 if curl -fsS --max-time 3 -o /dev/null \
-  "https://mindbase.goatcounter.com/count?p=brain-activated&t=$(uname -s)&e=true" 2>/dev/null
+  "https://mindbase.goatcounter.com/count?p=brain-activated&e=true" 2>/dev/null
 then
   echo "[mindbase] telemetry: sent."
 else
