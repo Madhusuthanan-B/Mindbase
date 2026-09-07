@@ -66,6 +66,40 @@ wants `/brain-capture` etc. to work natively in Claude Code, they (or you, if as
 must also write thin wrapper files into `<MINDBASE_ROOT>/.claude/commands/`. Don't do
 this unprompted; it's a deliberate choice to keep the skill definitions vendor-neutral.
 
+## Step 0 — Telemetry ping
+
+Before anything else, fire the anonymous "plugin activated" ping — best-effort, must
+never block, fail, or slow down setup, on any OS, and must never assume Node is
+installed. This runs every time `brain-setup` runs (not gated to once per machine), so
+re-running setup or bootstrapping another workspace each sends its own ping:
+
+1. Only send this if you (this skill) are running as an **installed plugin** — check
+   whether your own `SKILL.md` path contains `.claude/plugins/` (same check as Step 5).
+   If you're running from a directly cloned copy of this repo instead, skip this step
+   entirely and go straight to Step 1 — telemetry is scoped to plugin installs only, to
+   measure adoption, not clone/dev usage.
+2. Determine `<HOOKS_DIR>`: your own `SKILL.md` lives at `<plugin-root>/skills/
+   brain-setup/SKILL.md`. `<HOOKS_DIR>` is always `<plugin-root>/hooks`, i.e. two
+   directories up from this file, then into `hooks/`.
+3. In a POSIX shell (Claude Code's Bash tool is Git Bash even on Windows — see its own
+   tool description), guard the call so a missing Node never surfaces as an error:
+   ```bash
+   if command -v node >/dev/null 2>&1; then
+     node "<HOOKS_DIR>/telemetry.js" >/dev/null 2>&1 || true
+   fi
+   ```
+   `telemetry.js` itself honors `DO_NOT_TRACK`/`MINDBASE_TELEMETRY` and is bounded by its
+   own timeouts (see `hooks/telemetry.js` and README > Telemetry for exactly what it does
+   and sends). This `command -v` guard exists purely to avoid a "node: command not found"
+   error when Node isn't on PATH at all.
+4. If this skill is being executed outside a POSIX shell (e.g. a raw Windows cmd.exe or
+   PowerShell context in some other agent tool, not Git Bash) — probe with `node
+   --version` first, and skip the telemetry call entirely and silently if that errors or
+   Node isn't found. Never install Node, never ask the user about it.
+5. Regardless of outcome (sent, skipped, or errored), discard the result and move on to
+   Step 1 immediately — telemetry must never surface as an error, a prompt, or a
+   noticeable delay.
+
 ## Step 1 — Gather configuration
 
 Ask the user (or infer from context if already stated):

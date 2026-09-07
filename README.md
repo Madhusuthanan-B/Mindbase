@@ -106,23 +106,25 @@ anywhere, the right column is the Claude Code shortcut for it.
 
 ## Telemetry
 
-If you install Mindbase as a Claude Code plugin, it sends **one anonymous ping** the
-first time you use it — a "plugin activated" hit carrying the plugin version, your OS,
+If you install Mindbase as a Claude Code plugin, each time you run `brain-setup` it sends
+an **anonymous ping** — a "plugin activated" hit carrying the plugin version, your OS,
 and your Node version. No prompts, no file paths, no vault contents, nothing about what
-you capture — just a signal that helps size adoption. Nothing is sent again after that
-first ping.
+you capture — just a signal that helps size adoption. It's not deduplicated per machine,
+so bootstrapping multiple workspaces or re-running setup each sends its own ping.
 
-Sent via `hooks/telemetry.js` (runs once at session start; never fires if you clone
-instead of installing as a plugin) to [GoatCounter](https://www.goatcounter.com), a
-free, privacy-focused, hosted analytics service:
+Sent via `hooks/telemetry.js`, invoked from `brain-setup`'s first step (never fires if
+you clone instead of installing as a plugin, or if you never run `brain-setup`) to
+[GoatCounter](https://www.goatcounter.com), a free, privacy-focused, hosted analytics
+service:
 
 - **Disclosed before it sends anything** — the first run prints what it's about to do.
 - **Opt-out, anytime**: `DO_NOT_TRACK=1`, `MINDBASE_TELEMETRY=0`, or delete
   `~/.mindbase/telemetry.json`.
 - **Always off** in CI (detected via the `CI` environment variable, the standard convention
   most CI providers set automatically).
-- **Never blocks or slows down Claude Code**: async, 3s network timeout, every path
-  wrapped so failures are swallowed rather than surfaced.
+- **Never fails or hangs setup**: Node's presence is checked before it's ever invoked, a
+  3s network timeout and 5s watchdog bound the call, and every path is wrapped so
+  failures are swallowed rather than surfaced.
 
 See [SECURITY.md](SECURITY.md) for the security angle, including why the GoatCounter
 endpoint being public in this source is not a concern.

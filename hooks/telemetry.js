@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 'use strict';
 
-// One-time, disclosed, opt-out "plugin activated" ping. See README > Telemetry.
+// Disclosed, opt-out "plugin activated" ping, sent each time `brain-setup` runs (not
+// gated to once per machine). See README > Telemetry.
 //
 // Hard rule: this script must NEVER throw, hang, or block Claude Code. Every path
 // below is wrapped so failures are swallowed, and two independent caps guarantee
 // it always exits quickly even if a network call or the filesystem misbehaves:
 //   - REQUEST_TIMEOUT_MS bounds the network call itself (aborted, not just ignored)
 //   - WATCHDOG_MS is a backstop that force-exits the process no matter what hangs
-// The SessionStart hook is also registered with "async": true, so even a full
-// WATCHDOG_MS stall here never delays session start.
+// `brain-setup` also checks Node is on PATH before ever invoking this script.
 
 const fs = require('node:fs');
 const os = require('node:os');
@@ -39,33 +39,43 @@ async function main() {
     if (process.env.CI) return; // non-interactive CI environment: stay silent, persist nothing
 
     const config = readConfig();
-    if (config.activationSentAt) return; // already sent successfully, ever — nothing to do
-
     const enabled = resolveEnabled(config);
     const now = new Date().toISOString();
 
     if (!config.disclosedAt) {
       console.log(
-        '[mindbase] sends one anonymous, one-time "plugin activated" ping (no prompts, files, ' +
-          'or paths) unless disabled. Turn off: set DO_NOT_TRACK=1 or MINDBASE_TELEMETRY=0, or ' +
-          'delete ~/.mindbase/telemetry.json. Details: ' +
+        '[mindbase] sends an anonymous "plugin activated" ping each time you run brain-setup ' +
+          '(no prompts, files, or paths) unless disabled. Turn off: set DO_NOT_TRACK=1 or ' +
+          'MINDBASE_TELEMETRY=0, or delete ~/.mindbase/telemetry.json. Details: ' +
           'https://github.com/Madhusuthanan-B/Mindbase#telemetry'
       );
     }
 
-    writeConfig({ enabled, disclosedAt: config.disclosedAt || now });
+    writeConfig({ ...config, enabled, disclosedAt: config.disclosedAt || now });
 
     if (!enabled) return;
 
     try {
-      await sendEvent();
-      // only mark as sent once the ping actually succeeds, so a failed attempt
-      // (no network yet, blocked domain, etc.) gets retried on the next session
-      writeConfig({ enabled, disclosedAt: config.disclosedAt || now, activationSentAt: now });
+      const status = await sendEvent();
+      writeConfig({
+        ...config,
+        enabled,
+        disclosedAt: config.disclosedAt || now,
+        lastSentAt: now,
+        lastAttempt: { at: now, ok: true, status },
+      });
       console.log('[mindbase] activated.');
     } catch (err) {
-      // a network failure (or anything sendEvent throws) must never surface as an error,
-      // but logging it (rather than swallowing silently) makes send failures visible for debugging.
+      // a network failure (or non-2xx response) must never surface as an error, but
+      // persisting it (rather than swallowing silently) makes send failures inspectable
+      // via ~/.mindbase/telemetry.json even though this runs as a quiet Bash step inside
+      // brain-setup rather than something the user is watching closely.
+      writeConfig({
+        ...config,
+        enabled,
+        disclosedAt: config.disclosedAt || now,
+        lastAttempt: { at: now, ok: false, error: (err && (err.cause?.message || err.message)) || 'unknown' },
+      });
       console.log('[mindbase] activation check failed (harmless): ' + (err && err.message));
     }
   } catch {
@@ -107,7 +117,7 @@ function writeConfig(config) {
 }
 
 async function sendEvent() {
-  if (typeof fetch !== 'function') return; // older Node without global fetch: skip rather than risk a hang
+  if (typeof fetch !== 'function') throw new Error('no global fetch available'); // older Node: nothing to retry into
 
   let version = '0.0.0';
   try {
@@ -122,10 +132,17 @@ async function sendEvent() {
     e: 'true', // record as an event, not a pageview
   });
 
-  await fetch(`${GOATCOUNTER_URL}?${params.toString()}`, {
+  const response = await fetch(`${GOATCOUNTER_URL}?${params.toString()}`, {
     method: 'GET',
     // GoatCounter drops hits from requests that look bot-like (no/empty User-Agent); a plain UA keeps this counted.
     headers: { 'User-Agent': 'Mindbase-Plugin-Telemetry' },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
+
+  // fetch() only rejects on network-level failure — a non-2xx (rate-limited, bad
+  // path, etc.) resolves normally, so it must be checked explicitly or a silently
+  // discarded hit gets marked "sent" and is never retried.
+  if (!response.ok) throw new Error(`goatcounter responded ${response.status} ${response.statusText}`);
+
+  return response.status;
 }
