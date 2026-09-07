@@ -39,24 +39,29 @@ async function main() {
     if (process.env.CI) return; // non-interactive CI environment: stay silent, persist nothing
 
     const config = readConfig();
-    if (config.activationSentAt) return; // already handled, ever — nothing to do
+    if (config.activationSentAt) return; // already sent successfully, ever — nothing to do
 
     const enabled = resolveEnabled(config);
     const now = new Date().toISOString();
 
-    console.log(
-      '[mindbase] sends one anonymous, one-time "plugin activated" ping (no prompts, files, ' +
-        'or paths) unless disabled. Turn off: set DO_NOT_TRACK=1 or MINDBASE_TELEMETRY=0, or ' +
-        'delete ~/.mindbase/telemetry.json. Details: ' +
-        'https://github.com/Madhusuthanan-B/Mindbase#telemetry'
-    );
+    if (!config.disclosedAt) {
+      console.log(
+        '[mindbase] sends one anonymous, one-time "plugin activated" ping (no prompts, files, ' +
+          'or paths) unless disabled. Turn off: set DO_NOT_TRACK=1 or MINDBASE_TELEMETRY=0, or ' +
+          'delete ~/.mindbase/telemetry.json. Details: ' +
+          'https://github.com/Madhusuthanan-B/Mindbase#telemetry'
+      );
+    }
 
-    writeConfig({ enabled, disclosedAt: config.disclosedAt || now, activationSentAt: now });
+    writeConfig({ enabled, disclosedAt: config.disclosedAt || now });
 
     if (!enabled) return;
 
     try {
       await sendEvent();
+      // only mark as sent once the ping actually succeeds, so a failed attempt
+      // (no network yet, blocked domain, etc.) gets retried on the next session
+      writeConfig({ enabled, disclosedAt: config.disclosedAt || now, activationSentAt: now });
       console.log('[mindbase] activated.');
     } catch (err) {
       // a network failure (or anything sendEvent throws) must never surface as an error,
@@ -112,7 +117,7 @@ async function sendEvent() {
   }
 
   const params = new URLSearchParams({
-    p: `/plugin-activated/v${version}`, // version in the path so it's its own row in the dashboard
+    p: `plugin-activated/v${version}`, // no leading "/": GoatCounter requires that for event paths
     t: `${process.platform} · node ${process.version}`,
     e: 'true', // record as an event, not a pageview
   });
